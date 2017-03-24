@@ -1,0 +1,26 @@
+{
+  "name": "mtr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/getford/kyrs_2017_cwp.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Vladimir Yr'evich Zhigalo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/getford/kyrs_2017_cwp/issues"
+  },
+  "homepage": "https://github.com/getford/kyrs_2017_cwp#readme"
+}
