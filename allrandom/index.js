@@ -3,16 +3,21 @@ let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 let fs = require('fs');
 let Sequelize = require('sequelize');
+let get_ip = require('ipware')().get_ip;
 
 let app = express();
 
 let c = require('./calculator');
-let j = require('./res.json');
+let j = require('./json/res.json');
 let d = require('./model/db');
 let log = require('./log.js')(module);
 let metrica = require('./metrica.js');
 
 let file;
+
+app.use(express.static(__dirname + '/public'));
+//app.use(bodyParser.json);                 // ?
+
 
 /*
  app.use(express.favicon()); // отдаем стандартную фавиконку, можем здесь же свою задать
@@ -75,7 +80,7 @@ app.get('/calc', function (req, res) {
             "x / y": c.del(),
             "x ^ y": c.mod()
         };
-        fs.writeFile('./result.json', JSON.stringify(result));
+        fs.writeFile('./json/result.json', JSON.stringify(result));
         log.info("Запись прошла успешно -> result.json");
         // log.info("http://localhost:3000/calc");
         /*log.info(JSON.parse(JSON.stringify(j)));
@@ -97,6 +102,18 @@ app.get('/genKey', function (req, res) {
 
 app.get('/test', function (req, res) {
     metrica.checkURL(req.originalUrl.toString());
+
+    let ip = get_ip(req);
+    console.log(ip);
+    console.log(ip.clientIp);
+
+    /* let ip = req.headers['x-forwarded-for'] ||
+     req.connection.remoteAddress ||
+     req.socket.remoteAddress ||
+     req.connection.socket.remoteAddress;
+     console.log(ip);
+     */
+
     res.end();
 });
 

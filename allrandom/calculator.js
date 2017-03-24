@@ -1,4 +1,4 @@
-let j = require('./res.json');
+let j = require('./json/res.json');
 let log = require('./log.js')(module);
 
 function sum() {
