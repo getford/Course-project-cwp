@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "mysql2": "^1.2.0",
+    "sequelize": "^3.30.3"
   },
   "devDependencies": {},
   "scripts": {
