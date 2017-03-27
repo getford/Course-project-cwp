@@ -1,7 +1,7 @@
 let fs = require('fs');
 
 let log = require('./log.js')(module);
-let keyJSON = require('./key.json');
+let keyJSON = require(__dirname + '/key.json');
 
 let count = 0;
 
@@ -54,16 +54,46 @@ function renewKey() {       // обновление существующего �
 }
 
 function regUser() {        // регистрация пользователей
-
+    /*
+     * if(password === password){
+     *  select from account
+     * }
+     * else
+     * {
+     * }
+     * */
 }
 
 function countError() {     //  подсчет ошибок
+    // ошибок авторизации
+
+    // мелкие ошибки
+
+    // ошибки переходов
+}
+
+function addSite() {        // добавление сайта
+    "use strict";
+
+    // проверка авторизации
+
+    // проверка сайта в добавленых
+
+    // добавление сайта
 
 }
 
+function countClick() {     // число кликов
+    // по кнопкам
+
+    // по параметрам
+
+    // по числу раз авторизации
+}
 
 exports.checkURL = checkURL;
 exports.genUK = genUK;
 exports.renewKey = renewKey;
 exports.regUser = regUser;
 exports.countError = countError;
+exports.addSite = addSite;

@@ -15,6 +15,8 @@ let metrica = require('./metrica.js');
 
 let file;
 
+let port = 3000;            // номер порта
+
 app.use(express.static(__dirname + '/public'));
 //app.use(bodyParser.json);                 // ?
 
@@ -125,4 +127,4 @@ app.get('/db', function (req, res) {
 
 
 console.log("Сервер запущен успешно. http://localhost:3000/index");
-app.listen(3000);
+app.listen(port);
