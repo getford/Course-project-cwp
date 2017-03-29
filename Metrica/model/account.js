@@ -1,7 +1,7 @@
 module.exports = (Sequelize, sequelize) => {
     return sequelize.define('account', {
         id: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             primaryKey: true
         },
         login:Sequelize.STRING,

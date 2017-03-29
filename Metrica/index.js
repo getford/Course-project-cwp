@@ -17,11 +17,20 @@ dbcontext.sequelize
     .sync()
     .then(() => {
         app.get('/', function (req, res) {
+            metrica.checkURL(req.originalUrl.toString());
             res.send('Welcome to official site for Metrica!');
+            res.end();
+        });
+
+        app.get('/index', function (req, res) {
+            metrica.checkURL(req.originalUrl.toString());
+            res.end();
         });
 
         app.get('/genkey', function (req, res) {
+            metrica.checkURL(req.originalUrl.toString());
             metrica.genSK();
+            res.end();
         });
         app.listen(3000, () => console.log('Running'));
     })
