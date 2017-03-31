@@ -80,7 +80,7 @@ app.get('/calc', function (req, res) {
             "x - y": c.sub(),
             "x * y": c.mul(),
             "x / y": c.del(),
-            "x ^ y": c.mod()
+            "x % y": c.mod()
         };
         fs.writeFile('./json/result.json', JSON.stringify(result));
         log.info("Запись прошла успешно -> result.json");
@@ -90,7 +90,7 @@ app.get('/calc', function (req, res) {
          console.log("x - y = " + c.sub());
          console.log("x * y = " + c.mul());
          console.log("x / y = " + c.del());
-         console.log("x ^ y = " + c.mod());
+         console.log("x % y = " + c.mod());
          console.log("\n");*/
         res.end(file);
     });

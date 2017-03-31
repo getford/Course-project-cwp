@@ -22,7 +22,7 @@ function del() {
 
 function mod() {
     if (j.x > 0 && j.y > 0)
-        return j.x ^ j.y;
+        return j.x % j.y;
 }
 
 exports.sum = sum;
