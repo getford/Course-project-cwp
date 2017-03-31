@@ -1,6 +1,6 @@
 const express = require('express');
 
-express.response.error = function (error) {
+express.response.error = (error) => {
     if (!error.code) {
         error = {
             message: error.toString(),
@@ -22,6 +22,11 @@ module.exports = {
         code: 'entity_not_found',
         status: 404
     },
+    wrongCredentials: {
+        message: 'Password are wrong',
+        code: 'wrong_credentials',
+        status: 404
+    },
     accessDenied: {
         message: 'Access denied',
         code: 'access_denied',
@@ -32,5 +37,9 @@ module.exports = {
         code: 'unauthorized',
         status: 401
     },
-
+    PaymentRequired: {
+        message: 'Payment Required',
+        code: 'payment_equired',
+        status: 402
+    }
 };

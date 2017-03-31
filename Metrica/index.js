@@ -6,6 +6,7 @@ const Promise = require("bluebird");
 
 const config = require('./config');
 const errors = require('./utils/errors');
+const logger = require('./utils/logger');
 
 const dbcontext = require('./context/db')(Sequelize, config);
 
@@ -23,6 +24,7 @@ const app = express();
 app.use(cookieParser(config.cookie.key));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use('/api', logger);
 app.use('/api', auth);
 app.use('/api', cache);
 app.use('/api', apiController);
@@ -34,22 +36,3 @@ dbcontext.sequelize
         app.listen(3000, () => console.log('--- Success ---'));
     })
     .catch((err) => console.log(err));
-
-/*
- app.get('/', function (req, res) {
- metrica.checkURL(req.originalUrl.toString());
- res.send('Welcome to official site for Metrica!');
- res.end();
- });
-
- app.get('/index', function (req, res) {
- metrica.checkURL(req.originalUrl.toString());
- res.end();
- });
-
- app.get('/genkey', function (req, res) {
- metrica.checkURL(req.originalUrl.toString());
- metrica.genSK();
- res.end();
- });
- */

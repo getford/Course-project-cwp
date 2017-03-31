@@ -8,11 +8,12 @@ module.exports = (authService, config) => {
         if (contentType === 'application/json') {
             authService.login(req.body)
                 .then((userId) => {
-                    //  let token = jwt.sign({__user_id: userId}, 'zvy');
-                    // res.cookie('x-access-token', token);
+                    let token = jwt.sign({__user_id: userId}, 'shhhhh');
+                    res.cookie('x-access-token', token);
                     res.json({success: true});
                 })
                 .catch((err) => res.error(err));
+            res.end();
         }
     });
 
@@ -23,7 +24,6 @@ module.exports = (authService, config) => {
             authService.register(req.body)
                 .then((user) => res.json(req.body))
                 .catch((err) => res.error(err));
-
         }
     });
 
