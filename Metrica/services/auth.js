@@ -1,11 +1,9 @@
-const express = require('express');
-
-module.exports = (account, errors) => {
+module.exports = (userRepository, errors) => {
     return {login: login, register: register};
 
     function login(data) {
         return new Promise((resolve, reject) => {
-            account
+            userRepository
                 .findOne({where: {login: data.login}, attributes: ['id', 'password']})
                 .then((user) => {
                     if (user === null || user.password !== data.password) {
@@ -20,14 +18,12 @@ module.exports = (account, errors) => {
 
     function register(data) {
         return new Promise((resolve, reject) => {
-            let user =
-                {
-                    id: data.id,
-                    login: data.login,
-                    password: data.password,
-                };
+            let user = {
+                login: data.login,
+                password: data.password
+            };
 
-            Promise.all([account.create(user)])
+            Promise.all([userRepository.create(user)])
                 .then(() => resolve({success: true}))
                 .catch(reject);
         });

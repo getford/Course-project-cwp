@@ -4,5 +4,9 @@
     "name": "metrica",
     "user": "root",
     "password": ""
+  },
+  "cookie": {
+    "key": "secret key",
+    "auth": "x-access-token"
   }
 }

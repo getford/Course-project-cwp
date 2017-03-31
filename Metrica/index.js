@@ -5,23 +5,35 @@ const bodyParser = require('body-parser');
 const Promise = require("bluebird");
 
 const config = require('./config');
+const errors = require('./utils/errors');
 
 const dbcontext = require('./context/db')(Sequelize, config);
-const metrica = require('./metrica');
 
-const account = require('./services/account')(dbcontext.account, error);
+const authService = require('./services/auth')(dbcontext.auth, errors);
+const cacheService = require('./services/cache');
+
+const apiController = require('./controllers/api')(authService, cacheService, config);
+
+const auth = require('./utils/auth')(authService, config, errors);
+const cache = require('./utils/cache')(cacheService);
 
 const app = express();
 
+
+app.use(cookieParser(config.cookie.key));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use('/api', auth);
+app.use('/api', cache);
+app.use('/api', apiController);
 
 console.log("http://localhost:3000");
 dbcontext.sequelize
     .sync()
     .then(() => {
-        app.listen(3000, () => console.log('Running'));
+        app.listen(3000, () => console.log('--- Success ---'));
     })
     .catch((err) => console.log(err));
-
 
 /*
  app.get('/', function (req, res) {

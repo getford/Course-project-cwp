@@ -2,7 +2,8 @@ module.exports = (Sequelize, sequelize) => {
     return sequelize.define('error', {
         id: {
             type: Sequelize.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         numErr: Sequelize.INTEGER,
         url: Sequelize.STRING,

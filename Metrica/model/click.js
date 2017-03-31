@@ -2,7 +2,8 @@ module.exports = (Sequelize, sequelize) => {
     return sequelize.define('click', {
         id: {
             type: Sequelize.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         element: Sequelize.STRING,
         count: Sequelize.INTEGER

@@ -15,7 +15,7 @@ module.exports = (Sequelize, config) => {
     };
     const sequelize = new Sequelize(config.db.name, config.db.user, config.db.password, options);
 
-    const Account = require('../model/account')(Sequelize, sequelize);
+    const Auth = require('../model/auth')(Sequelize, sequelize);
     const Site = require('../model/site')(Sequelize, sequelize);
     const Statistic = require('../model/statistic')(Sequelize, sequelize);
     const Error = require('../model/error')(Sequelize, sequelize);
@@ -23,8 +23,8 @@ module.exports = (Sequelize, config) => {
     const Gotourl = require('../model/gotourl')(Sequelize, sequelize);
 
     // Site -> Account
-    Site.belongsTo(Account);
-    Account.hasMany(Site);
+    Site.belongsTo(Auth);
+    Auth.hasMany(Site);
 
     // Statistic -> Site
     Statistic.belongsTo(Site);
@@ -43,7 +43,7 @@ module.exports = (Sequelize, config) => {
     Gotourl.hasMany(Statistic);
 
     return {
-        account: Account,
+        auth: Auth,
         site: Site,
         statistic: Statistic,
         error: Error,

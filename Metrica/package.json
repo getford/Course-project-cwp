@@ -1,12 +1,19 @@
 {
   "name": "mtr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Metrica app",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.15.2",
-    "mysql2": "^1.2.0",
-    "sequelize": "^3.30.3"
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "body-parser-xml": "^1.1.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.3.0",
+    "mysql": "^2.11.1",
+    "needle": "^1.4.5",
+    "sequelize": "^3.24.1",
+    "xml": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {
