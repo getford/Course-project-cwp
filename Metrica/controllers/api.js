@@ -7,10 +7,3 @@ module.exports = (authService, config) => {
 
     return router;
 };
-
-/*
-function promiseHandler(res, promise) {
-    promise.then((data) => res.json(data)).catch((err) =>
-        res.error(err));
-}
-    */

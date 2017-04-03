@@ -6,7 +6,7 @@ module.exports = (userRepository, errors) => {
             userRepository
                 .findOne({where: {login: data.login}, attributes: ['id', 'password']})
                 .then((user) => {
-                    if (user === null || user.password !== data.password) {
+                    if (user == "" || user.password != data.password) {
                         reject(errors.wrongCredentials);
                         return;
                     }

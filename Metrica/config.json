@@ -5,6 +5,7 @@
     "user": "root",
     "password": ""
   },
+  "env": "dev",
   "cookie": {
     "key": "secret key",
     "auth": "x-access-token"

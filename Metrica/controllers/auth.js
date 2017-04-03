@@ -13,7 +13,6 @@ module.exports = (authService, config) => {
                     res.json({success: true});
                 })
                 .catch((err) => res.error(err));
-            res.end();
         }
     });
 
@@ -28,7 +27,7 @@ module.exports = (authService, config) => {
     });
 
     router.post('/logout', (req, res) => {
-        res.cookie(config.cookie.auth, '');
+        res.cookie(config.cookies.auth, '');
         res.json({success: true});
     });
 
