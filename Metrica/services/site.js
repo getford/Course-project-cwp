@@ -23,32 +23,28 @@ module.exports = (siteRepository, errors) => {
                                 };
                                 console.log(decode);
                                 Promise.all([siteRepository.create(site)])
-                                    .then(() => resolve({success: "site was added"}))
-                                    .catch(() => reject({error: "error add site"}));
+                                    .then(() => resolve())
+                                    .catch(() => reject());
                             }
                             return;
                         });
                     }
-                });
+                })
+                .catch(reject);
         });
     }
 
-    function delSite(data) {
+    function delSite(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.destroy({where: [{authId: 19}]})
-                .then()
-                .catch();
+            jwt.verify(token, 'zvy', (err, decode) => {
+                if (err) {
+                    reject(errors.Unauthorized);
+                    return;
+                } else {
+                    siteRepository.destroy({where: {authId: decode.__user_id, url: data.url}});
+                    return;
+                }
+            });
         });
     }
-/*
-    function getId(token) {
-        let tmp = 0;
-        jwt.verify(token, 'zvy', (err, decode) => {
-            if (err)
-                reject(errors.Unauthorized);
-            else
-                tmp = decode.__user_id;
-        });
-        return tmp;
-    }*/
 };
