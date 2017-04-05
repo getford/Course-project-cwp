@@ -11,9 +11,10 @@ const logger = require('./utils/logger');
 const db = require('./context/db')(Sequelize, config);
 
 const authService = require('./services/auth')(db.auth, errors);
+const siteService = require('./services/site')(db.auth, db.site, errors);
 const cacheService = require('./services/cache');
 
-const apiController = require('./controllers/api')(authService, cacheService, config);
+const apiController = require('./controllers/api')(authService, siteService, cacheService, config);
 
 const auth = require('./utils/auth')(authService, config, errors);
 const cache = require('./utils/cache')(cacheService);
@@ -32,6 +33,6 @@ console.log("http://localhost:3000");
 db.sequelize
     .sync()
     .then(() => {
-        app.listen(3000, () => console.log('--- Success ---'));
+        app.listen(3000, () => console.log('--- Success ---\n'));
     })
     .catch((err) => console.log(err));
