@@ -3,8 +3,7 @@ module.exports = (userRepository, errors) => {
 
     function login(data) {
         return new Promise((resolve, reject) => {
-            userRepository
-                .findOne({where: {login: data.login}, attributes: ['id', 'password']})
+            userRepository.findOne({where: {login: data.login}, attributes: ['id', 'login', 'password']})
                 .then((user) => {
                     if (user == "" || user.password != data.password) {
                         reject(errors.wrongCredentials);

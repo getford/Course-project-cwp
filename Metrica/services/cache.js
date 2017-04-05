@@ -1,8 +1,7 @@
-module.exports =
-    {
-        set: (req, data) => {
-        },
-        get: (req) => {
-            return undefined;
-        }
-    };
+module.exports = {
+    set: (req, data) => {
+    },
+    get: (req) => {
+        return undefined;
+    }
+};
