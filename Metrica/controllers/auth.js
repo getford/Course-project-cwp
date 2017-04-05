@@ -8,7 +8,7 @@ module.exports = (authService, config) => {
         if (contentType === 'application/json') {
             authService.login(req.body)
                 .then((userId) => {
-                    let token = jwt.sign({__user_id: userId}, 'zvy');
+                    let token = jwt.sign({__user_id: userId, __user_login: req.body.login}, 'zvy');
                     res.cookie('x-access-token', token);
                     res.json({success: "login success"});
                 })

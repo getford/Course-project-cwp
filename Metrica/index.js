@@ -11,7 +11,7 @@ const logger = require('./utils/logger');
 const db = require('./context/db')(Sequelize, config);
 
 const authService = require('./services/auth')(db.auth, errors);
-const siteService = require('./services/site')(db.auth, db.site, errors);
+const siteService = require('./services/site')(db.site, errors);
 const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService, cacheService, config);

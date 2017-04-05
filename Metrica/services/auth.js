@@ -17,14 +17,23 @@ module.exports = (userRepository, errors) => {
 
     function register(data) {
         return new Promise((resolve, reject) => {
-            let user = {
-                login: data.login,
-                password: data.password
-            };
+            userRepository.count({where: [{login: data.login}]})
+                .then((count) => {
+                    if (count > 0) {
+                        reject(errors);
+                        return;
+                    }
+                    else {
+                        let user = {
+                            login: data.login,
+                            password: data.password
+                        };
 
-            Promise.all([userRepository.create(user)])
-                .then(() => resolve({success: true}))
-                .catch(reject);
+                        Promise.all([userRepository.create(user)])
+                            .then(() => resolve({success: true}))
+                            .catch(reject);
+                    }
+                })
         });
     }
 };

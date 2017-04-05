@@ -41,5 +41,10 @@ module.exports = {
         message: 'Payment Required',
         code: 'payment_equired',
         status: 402
+    },
+    DatabaseError: {
+        message: 'Data base have some errors',
+        code: 'db_error',
+        status: 402
     }
 };
