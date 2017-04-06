@@ -9,10 +9,10 @@ module.exports = (req, res, next) => {
         cookies: req.cookies
     };
 
-    console.log(res.locals.trace.date);
-    console.log("http://localhost:3000" + res.locals.trace.url);
-    console.log(res.locals.trace.body);
-    console.log(res.locals.trace.cookies);
+    console.log("url: http://localhost:3000" + res.locals.trace.url);
+    console.log('date: ' + res.locals.trace.date);
+    console.log('body: ' + JSON.stringify(res.locals.trace.body));
+    console.log('token: ' + JSON.stringify(res.locals.trace.cookies));
     console.log();
 
     next();

@@ -9,6 +9,7 @@ module.exports = (siteRepository, errors) => {
                 .then((count) => {
                     if (count > 0) {
                         reject(errors.DatabaseError);
+                        console.log('Такой сайт есть в базе');
                         return;
                     }
                     else {

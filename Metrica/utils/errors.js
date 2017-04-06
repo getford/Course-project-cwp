@@ -3,7 +3,7 @@ const express = require('express');
 express.response.error = function (error) {
     if (!error.code) {
         error = {
-            message: error.toString(),
+            message: 'error, pls try again',
             code: 'server_error',
             status: 500
         };

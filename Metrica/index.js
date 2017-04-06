@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const Promise = require("bluebird");
+const bcrypt = require('bcryptjs');
 
 const config = require('./config');
 const errors = require('./utils/errors');
@@ -13,10 +14,11 @@ const db = require('./context/db')(Sequelize, config);
 const authService = require('./services/auth')(db.auth, errors);
 const siteService = require('./services/site')(db.site, errors);
 const statisticService = require('./services/statistic')(db.statistic, errors);
+const gotourlService = require('./services/gotourl')(db.gotourl, errors);
 const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService,
-    statisticService, cacheService, config);
+    statisticService, gotourlService, cacheService, config);
 
 const auth = require('./utils/auth')(authService, config, errors);
 const cache = require('./utils/cache')(cacheService);

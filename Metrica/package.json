@@ -4,16 +4,15 @@
   "description": "Metrica app",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.4.7",
-    "body-parser": "^1.15.2",
-    "body-parser-xml": "^1.1.0",
+    "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "jsonwebtoken": "^7.3.0",
-    "mysql": "^2.11.1",
-    "needle": "^1.4.5",
-    "sequelize": "^3.24.1",
-    "xml": "^1.0.1"
+    "mysql": "^2.13.0",
+    "needle": "^1.6.0",
+    "sequelize": "^3.24.1"
   },
   "devDependencies": {},
   "scripts": {

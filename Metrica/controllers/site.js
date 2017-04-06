@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (siteService, config) => {
+module.exports = (siteService) => {
     router.post('/addsite', (req, res) => {
         let contentType = req.headers['content-type'];
         if (contentType === 'application/json') {
