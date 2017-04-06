@@ -1,15 +1,26 @@
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
+
 module.exports = (userRepository, errors) => {
     return {login: login, register: register};
 
     function login(data) {
         return new Promise((resolve, reject) => {
-            userRepository.findOne({where: {login: data.login}, attributes: ['id', 'login', 'password']})
+            userRepository.findOne({
+                where: {login: data.login},
+                attributes: ['id', 'login', 'password']
+            })
                 .then((user) => {
-                    if (user == "" || user.password != data.password) {
-                        reject(errors.wrongCredentials);
-                        return;
-                    }
-                    resolve(user.id);
+                    if (user === "")
+                        reject('user not found');
+
+                    bcrypt.compare(data.password.toString(), user.password.toString(),
+                        (err, result) => {
+                            if (result === true)
+                                resolve(user.id);
+                            else
+                                reject(errors.invalidPassword)
+                        });
                 })
                 .catch(reject);
         });
@@ -19,21 +30,38 @@ module.exports = (userRepository, errors) => {
         return new Promise((resolve, reject) => {
             userRepository.count({where: [{login: data.login}]})
                 .then((count) => {
-                    if (count > 0) {
-                        reject(errors);
-                        return;
-                    }
+                    if (count > 0)
+                        return reject({"error": "login in db"});
+                    else if (data.login.length < 4 || data.password.length < 4)
+                        return reject(errors.wrongCredentials);
                     else {
-                        let user = {
-                            login: data.login,
-                            password: data.password
-                        };
-
-                        Promise.all([userRepository.create(user)])
-                            .then(() => resolve({success: true}))
-                            .catch(reject);
+                        return new Promise((resolve, reject) => {
+                            bcrypt.hash(data.password.toString(), saltRounds, (err, hash) => {
+                                if (err)
+                                    return reject(err);
+                                else
+                                    return resolve(hash);
+                            });
+                        });
                     }
                 })
+                .then(hash => {
+                    return userRepository.create({
+                        login: data.login,
+                        password: hash
+                    })
+                })
+                .then(data => {
+                    resolve({success: "user registr"})
+                })
+                .catch(data => reject(data));
         });
     }
 };
+
+
+/*
+ Promise.all([userRepository.create(user)])
+ .then(() => resolve({success: true}))
+ .catch(reject);
+ */
