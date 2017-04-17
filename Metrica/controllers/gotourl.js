@@ -1,12 +1,12 @@
 const express = require('express');
+const config = require('../config');
 const router = express.Router();
 
-module.exports = (gotourlService, config) => {
+module.exports = (gotourlService, siteService, config) => {
 
-    router.post('/checkURL', (req, res) => {
-
-        gotourlService.checkURL(req.body)
-            .then((user) => res.json(req.body))
+    router.post('/checkurl', (req, res) => {
+        gotourlService.checkURL(req.body, config, req.cookies[config.cookie.auth])
+            .then((result) => res.json(result))
             .catch((err) => res.error(err));
     });
 

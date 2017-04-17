@@ -27,12 +27,12 @@ module.exports = (authService, config) => {
     });
 
     router.post('/logout', (req, res) => {
-        res.cookie(config.cookies.auth, '');
+        res.cookie(config.cookie.auth, '');
         res.json({success: true});
     });
 
     router.get('/accinfo', (req, res) => {
-        authService.accinfo(config, req.cookies["x-access-token"])
+        authService.accinfo(config, req.cookies[config.cookie.auth])
             .then((result) => res.json(result))
             .catch((err) => res.error(err));
     });

@@ -14,7 +14,7 @@ const db = require('./context/db')(Sequelize, config);
 const authService = require('./services/auth')(db.auth, errors);
 const siteService = require('./services/site')(db.site, errors);
 const statisticService = require('./services/statistic')(db.statistic, errors);
-const gotourlService = require('./services/gotourl')(db.gotourl, errors);
+const gotourlService = require('./services/gotourl')(db.gotourl, db.site, errors);
 const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService,

@@ -3,9 +3,9 @@ const express = require('express');
 express.response.error = function (error) {
     if (!error.code) {
         error = {
-            message: 'error, pls try again',
-            code: 'server_error',
-            status: 500
+            message: 'error, please try again',
+            code: 'undefined_error',
+            status: 400
         };
     }
     this.status(error.status).json(error);
@@ -45,6 +45,11 @@ module.exports = {
     DatabaseError: {
         message: 'Data base have some errors',
         code: 'db_error',
+        status: 402
+    },
+    FileError: {
+        message: 'File has some error',
+        code: 'file_error',
         status: 402
     }
 };
