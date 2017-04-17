@@ -1,10 +1,12 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 module.exports = (userRepository, errors) => {
-    return {login: login, register: register};
+    return {login: login, register: register, accinfo: accinfo};
 
     function login(data) {
+        "use strict";
         return new Promise((resolve, reject) => {
             userRepository.findOne({
                 where: {login: data.login},
@@ -27,6 +29,7 @@ module.exports = (userRepository, errors) => {
     }
 
     function register(data) {
+        "use strict";
         return new Promise((resolve, reject) => {
             userRepository.count({where: [{login: data.login}]})
                 .then((count) => {
@@ -51,17 +54,26 @@ module.exports = (userRepository, errors) => {
                         password: hash
                     })
                 })
-                .then(data => {
-                    resolve({success: "user registr"})
-                })
-                .catch(data => reject(data));
+                .then((data) => resolve({success: "user registered"}))
+                .catch((data) => reject(data));
+        });
+    }
+
+    function accinfo(config, token) {            // вернуть инфу об акк
+        "use strict";
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    userRepository.findOne({
+                        where: {login: decode.__user_login},
+                        attributes: ['login', 'password']
+                    })
+                        .then((result) => resolve(result))
+                        .catch(() => reject(err));
+                }
+            });
         });
     }
 };
-
-
-/*
- Promise.all([userRepository.create(user)])
- .then(() => resolve({success: true}))
- .catch(reject);
- */

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (authService, siteService, statisticService, gotourlService, config) => {
+module.exports = (authService, siteService, statisticService, gotourlService, cacheService, config) => {
     const authController = require('./auth')(authService, config);
     const siteController = require('./site')(siteService);
     const statisticController = require('./statistic')(statisticService, config);

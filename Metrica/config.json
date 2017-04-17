@@ -9,5 +9,6 @@
   "cookie": {
     "key": "secret key",
     "auth": "x-access-token"
-  }
+  },
+  "tokenKey": "zvy"
 }

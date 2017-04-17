@@ -37,6 +37,8 @@ console.log("http://localhost:3000");
 db.sequelize
     .sync()
     .then(() => {
-        app.listen(3000, () => console.log('--- Success ---\n'));
+        app.listen(3000, () => {
+            console.log('--- Success ---\n');
+        });
     })
     .catch((err) => console.log(err));

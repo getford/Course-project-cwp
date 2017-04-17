@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 module.exports = (siteRepository, errors) => {
     return {addSite: addSite, delSite: delSite};
 
     function addSite(data, token) {
+        "use strict";
         return new Promise((resolve, reject) => {
             siteRepository.count({where: [{url: data.url}]})        // проверяем есть ли такой url в бд
                 .then((count) => {
@@ -13,7 +15,7 @@ module.exports = (siteRepository, errors) => {
                         return;
                     }
                     else {
-                        jwt.verify(token, 'zvy', (err, decode) => {
+                        jwt.verify(token, config.tokenKey, (err, decode) => {
                             if (err)
                                 reject(errors.Unauthorized);
                             else {
@@ -36,8 +38,9 @@ module.exports = (siteRepository, errors) => {
     }
 
     function delSite(data, token) {
+        "use strict";
         return new Promise((resolve, reject) => {
-            jwt.verify(token, 'zvy', (err, decode) => {
+            jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err) {
                     reject(errors.Unauthorized);
                     return;

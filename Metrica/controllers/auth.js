@@ -8,7 +8,7 @@ module.exports = (authService, config) => {
         if (contentType === 'application/json') {
             authService.login(req.body)
                 .then((userId) => {
-                    let token = jwt.sign({__user_id: userId, __user_login: req.body.login}, 'zvy');
+                    let token = jwt.sign({__user_id: userId, __user_login: req.body.login}, config.tokenKey);
                     res.cookie('x-access-token', token);
                     res.json({success: "login success"});
                 })
@@ -29,6 +29,12 @@ module.exports = (authService, config) => {
     router.post('/logout', (req, res) => {
         res.cookie(config.cookies.auth, '');
         res.json({success: true});
+    });
+
+    router.get('/accinfo', (req, res) => {
+        authService.accinfo(config, req.cookies["x-access-token"])
+            .then((result) => res.json(result))
+            .catch((err) => res.error(err));
     });
 
     return router;
