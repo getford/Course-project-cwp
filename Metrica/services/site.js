@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const config = require('../config');
 
+const dir = __dirname.slice(0, __dirname.length - 8) + 'json\\';
+
 module.exports = (siteRepository, errors) => {
     return {addSite: addSite, delSite: delSite};
 
@@ -29,8 +31,7 @@ module.exports = (siteRepository, errors) => {
                                 Promise.all([siteRepository.create(site)])
                                     .then(() => resolve())
                                     .catch(() => reject());
-                                fs.open(__dirname.slice(0, __dirname.length - 8) + 'json\\'
-                                    + data.url + '.json', 'wx', (err) => {
+                                fs.open(dir + data.url + '.json', 'wx', (err) => {
                                     if (err)
                                         console.error(errors.FileError);
                                 });
@@ -50,14 +51,23 @@ module.exports = (siteRepository, errors) => {
                 if (err) {
                     return reject(errors.Unauthorized);
                 } else {
-                    siteRepository.destroy({where: {authId: decode.__user_id, url: data.url}});
-                    fs.unlink(__dirname.slice(0, __dirname.length - 8) + 'json\\'
-                        + data.url + '.json', (err) => {
-                        if (err)
-                            throw err;
-                        console.log('successfully deleted ' + data.url + '.json');
-                    });
-                    return resolve({success: "site delete"});
+                    siteRepository.findOne({where: {url: data.url}, attributes: ['authId']})
+                        .then((result) => {
+                            if (decode.__user_id === result.authId) {
+                                siteRepository.destroy({where: {authId: decode.__user_id, url: data.url}});
+                                fs.unlink(dir + data.url + '.json', (err) => {
+                                    if (err)
+                                        throw err;
+                                    console.log('successfully deleted ' + data.url + '.json');
+                                });
+                                return resolve({success: "site delete"});
+                            }
+                            else {
+                                reject(errors);
+                                console.error('site is not u')
+                            }
+                        })
+                        .catch(() => reject);
                 }
             });
         });
