@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 const config = require('../config');
 
 module.exports = (siteRepository, errors) => {
@@ -11,7 +12,7 @@ module.exports = (siteRepository, errors) => {
                 .then((count) => {
                     if (count > 0) {
                         reject(errors.DatabaseError);
-                        console.log('Такой сайт есть в базе');
+                        console.log('site in db');
                         return;
                     }
                     else {
@@ -28,6 +29,11 @@ module.exports = (siteRepository, errors) => {
                                 Promise.all([siteRepository.create(site)])
                                     .then(() => resolve())
                                     .catch(() => reject());
+                                fs.open(__dirname.slice(0, __dirname.length - 8) + 'json\\'
+                                    + data.url + '.json', 'wx', (err) => {
+                                    if (err)
+                                        console.error(errors.FileError);
+                                });
                             }
                             return;
                         });
@@ -42,11 +48,16 @@ module.exports = (siteRepository, errors) => {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err) {
-                    reject(errors.Unauthorized);
-                    return;
+                    return reject(errors.Unauthorized);
                 } else {
                     siteRepository.destroy({where: {authId: decode.__user_id, url: data.url}});
-                    return;
+                    fs.unlink(__dirname.slice(0, __dirname.length - 8) + 'json\\'
+                        + data.url + '.json', (err) => {
+                        if (err)
+                            throw err;
+                        console.log('successfully deleted ' + data.url + '.json');
+                    });
+                    return resolve({success: "site delete"});
                 }
             });
         });
