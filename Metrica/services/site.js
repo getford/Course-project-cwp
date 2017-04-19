@@ -15,7 +15,7 @@ module.exports = (siteRepository, errors) => {
                     if (count > 0) {
                         reject(errors.DatabaseError);
                         console.log('site in db');
-                        return;
+                        return reject;
                     }
                     else {
                         jwt.verify(token, config.tokenKey, (err, decode) => {
@@ -31,12 +31,12 @@ module.exports = (siteRepository, errors) => {
                                 Promise.all([siteRepository.create(site)])
                                     .then(() => resolve())
                                     .catch(() => reject());
-                                fs.open(dir + data.url + '.json', 'wx', (err) => {
+                                fs.open(dir + data.url + '.json', 'w', (err) => {
                                     if (err)
                                         console.error(errors.FileError);
                                 });
                             }
-                            return;
+                            return resolve;
                         });
                     }
                 })
