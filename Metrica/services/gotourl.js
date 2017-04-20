@@ -20,7 +20,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
         return new Promise((resolve, reject) => {
             siteRepository.findOne({
                 where: {url: data.mainurl},
-                attributes: ['authId']
+                attributes: ['authId', 'key']
             })
                 .then((result) => {
                     jwt.verify(token, config.tokenKey, (err, decode) => {
@@ -35,10 +35,10 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                         url: cutUrl,
                                         date: dateNow
                                     },
-                                    attributes: ['url', 'count', 'date']
+                                    attributes: ['url', 'count', 'date', 'key']
                                 })
                                     .then((resultUrl) => {
-                                        if (resultUrl.date === dateNow) {
+                                        if (resultUrl.date === dateNow && resultUrl.key === result.key) {
                                             let tmpCount = resultUrl.count + 1;
                                             gotourlRepository.update({count: tmpCount}, {
                                                 where: {
@@ -49,7 +49,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                             tmpCount = 0;
                                         }
                                         else {
-                                            let addUrl = {url: cutUrl, count: 1, date: dateNow};
+                                            let addUrl = {url: cutUrl, count: 1, date: dateNow, key: result.key};
                                             Promise.all([gotourlRepository.create(addUrl)])
                                                 .then(() => resolve({success: "url was add"}))
                                                 .catch(() => reject());
@@ -57,7 +57,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                         resolve({success: true});
                                     })
                                     .catch(() => {
-                                        let addUrl = {url: cutUrl};
+                                        let addUrl = {url: cutUrl, key: result.key};
                                         Promise.all([gotourlRepository.create(addUrl)])
                                             .then(() => resolve({success: "url was add"}))
                                             .catch(() => reject());

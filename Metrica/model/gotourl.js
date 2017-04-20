@@ -17,6 +17,7 @@ module.exports = (Sequelize, sequelize) => {
             defaultValue: date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear()
-        }
+        },
+        key: Sequelize.STRING
     });
 };
