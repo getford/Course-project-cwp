@@ -25,7 +25,7 @@ module.exports = {
     wrongCredentials: {
         message: 'Email or password are wrong',
         code: 'wrong_credentials',
-        status: 404
+        status: 401
     },
     accessDenied: {
         message: 'Access denied',
@@ -36,11 +36,6 @@ module.exports = {
         message: 'Unauthorized',
         code: 'unauthorized',
         status: 401
-    },
-    PaymentRequired: {
-        message: 'Payment Required',
-        code: 'payment_equired',
-        status: 402
     },
     DatabaseError: {
         message: 'Data base have some errors',

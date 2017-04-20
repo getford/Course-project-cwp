@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-let obj = {url: []};
-const dir = __dirname.slice(0, __dirname.length - 8) + 'json\\';
-
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, errors) => {
@@ -76,6 +73,8 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
 
 
 /*
+ let obj = {url: []};
+ const dir = __dirname.slice(0, __dirname.length - 8) + 'json\\';
  siteRepository.find({
  where: {url: data.url},
  attributes: ['authId', 'key']

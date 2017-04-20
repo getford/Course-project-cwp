@@ -38,6 +38,9 @@ db.sequelize
     .sync()
     .then(() => {
         app.listen(3000, () => {
+            console.log("host:\t" + config.db.host);
+            console.log("name:\t" + config.db.name);
+            console.log("user:\t" + config.db.user);
             console.log('--- Success ---\n');
         });
     })
