@@ -1,14 +1,10 @@
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
+const Promise = require("bluebird");
 
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, errors) => {
-    return {checkURL: checkURL};
-
-    // смотрим url, если нет добавляем
-    // добавление по дням (в конце дня)
-    // промежуточно храним в json, после добавления очищаем
+    return { checkURL: checkURL };
 
     function checkURL(data, config, token) {            // проверяем url
         let dateNow = date.getDate() +
@@ -16,7 +12,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
             siteRepository.findOne({
-                where: {url: data.mainurl},
+                where: { url: data.mainurl },
                 attributes: ['authId', 'key']
             })
                 .then((result) => {
@@ -26,7 +22,6 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                         else {
                             if (decode.__user_id === result.authId) {
                                 let cutUrl = data.url.slice(data.mainurl.length, data.url.length);
-                                console.log(cutUrl);
                                 gotourlRepository.findOne({
                                     where: {
                                         url: cutUrl,
@@ -37,7 +32,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                     .then((resultUrl) => {
                                         if (resultUrl.date === dateNow && resultUrl.key === result.key) {
                                             let tmpCount = resultUrl.count + 1;
-                                            gotourlRepository.update({count: tmpCount}, {
+                                            gotourlRepository.update({ count: tmpCount }, {
                                                 where: {
                                                     url: cutUrl,
                                                     date: dateNow
@@ -46,18 +41,18 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                             tmpCount = 0;
                                         }
                                         else {
-                                            let addUrl = {url: cutUrl, count: 1, date: dateNow, key: result.key};
+                                            let addUrl = { url: cutUrl, count: 1, date: dateNow, key: result.key };
                                             Promise.all([gotourlRepository.create(addUrl)])
-                                                .then(() => resolve({success: "url was add"}))
-                                                .catch(() => reject());
+                                                .then(() => resolve({ success: "ok, success" }))
+                                                .catch(() => reject({ success: "url was add" }));
                                         }
-                                        resolve({success: true});
+                                        resolve({ success: true });
                                     })
                                     .catch(() => {
-                                        let addUrl = {url: cutUrl, key: result.key};
+                                        let addUrl = { url: cutUrl, key: result.key };
                                         Promise.all([gotourlRepository.create(addUrl)])
-                                            .then(() => resolve({success: "url was add"}))
-                                            .catch(() => reject());
+                                            .then(() => resolve({ success: "ok, success" }))
+                                            .catch(() => reject({ success: "url was add" }));
                                     });
                             }
                             else {
@@ -73,6 +68,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
 
 
 /*
+ const fs = require('fs');
  let obj = {url: []};
  const dir = __dirname.slice(0, __dirname.length - 8) + 'json\\';
  siteRepository.find({

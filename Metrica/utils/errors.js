@@ -1,6 +1,6 @@
 const express = require('express');
 
-express.response.error = function (error) {
+express.response.error = (error) => {
     if (!error.code) {
         error = {
             message: 'error, please try again',

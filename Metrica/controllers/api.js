@@ -1,8 +1,9 @@
+"use strict";
 const express = require('express');
 const router = express.Router();
 
 module.exports = (authService, siteService, statisticService, gotourlService, cacheService, config) => {
-    const authController = require('./auth')(authService, config);
+    const authController = require('./auth')(authService, siteService, config);
     const siteController = require('./site')(siteService);
     const statisticController = require('./statistic')(statisticService, config);
     const gotourlController = require('./gotourl')(gotourlService, siteService, config);

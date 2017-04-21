@@ -1,8 +1,9 @@
+"use strict";
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-module.exports = (authService, config) => {
+module.exports = (authService, siteRepository, config) => {
     router.post('/login', (req, res) => {
         let contentType = req.headers['content-type'];
         if (contentType === 'application/json') {

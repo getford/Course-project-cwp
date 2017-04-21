@@ -8,6 +8,3 @@ module.exports = (Sequelize, sequelize) => {
         url: Sequelize.STRING
     });
 };
-
-
-        // допилить

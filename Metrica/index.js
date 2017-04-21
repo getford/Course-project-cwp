@@ -1,9 +1,8 @@
+"use strict";
 const express = require('express');
 const Sequelize = require('sequelize');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const Promise = require("bluebird");
-const bcrypt = require('bcryptjs');
 
 const config = require('./config');
 const errors = require('./utils/errors');
@@ -11,7 +10,7 @@ const logger = require('./utils/logger');
 
 const db = require('./context/db')(Sequelize, config);
 
-const authService = require('./services/auth')(db.auth, errors);
+const authService = require('./services/auth')(db.auth, db.site, errors);
 const siteService = require('./services/site')(db.site, errors);
 const statisticService = require('./services/statistic')(db.statistic, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, errors);

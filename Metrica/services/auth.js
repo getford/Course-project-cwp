@@ -1,12 +1,13 @@
+"use strict";
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Promise = require("bluebird");
 const saltRounds = 10;
 
-module.exports = (userRepository, errors) => {
+module.exports = (userRepository, siteRepository, errors) => {
     return {login: login, register: register, accinfo: accinfo};
 
     function login(data) {
-        "use strict";
         return new Promise((resolve, reject) => {
             userRepository.findOne({
                 where: {login: data.login},
@@ -15,7 +16,6 @@ module.exports = (userRepository, errors) => {
                 .then((user) => {
                     if (user === "")
                         reject('user not found');
-
                     bcrypt.compare(data.password.toString(), user.password.toString(),
                         (err, result) => {
                             if (result === true)
@@ -29,7 +29,6 @@ module.exports = (userRepository, errors) => {
     }
 
     function register(data) {
-        "use strict";
         return new Promise((resolve, reject) => {
             userRepository.count({where: [{login: data.login}]})
                 .then((count) => {
@@ -55,23 +54,27 @@ module.exports = (userRepository, errors) => {
                     })
                 })
                 .then((data) => resolve({success: "user registered"}))
-                .catch((data) => reject(data));
+                .catch(() => reject(errors));
         });
     }
 
-    function accinfo(config, token) {            // вернуть инфу об акк
-        "use strict";
+    function accinfo(config, token) {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err)
                     return reject(err);
                 else {
-                    userRepository.findOne({
+                    userRepository.findAll({
                         where: {login: decode.__user_login},
-                        attributes: ['login', 'password']
+                        include: {
+                            model: siteRepository,
+                            where: {authId: decode.__user_id},
+                            attributes: ['url']
+                        },
+                        attributes: ['login']
                     })
                         .then((result) => resolve(result))
-                        .catch(() => reject(err));
+                        .catch(() => reject(errors));
                 }
             });
         });
