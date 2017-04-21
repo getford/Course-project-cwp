@@ -8,7 +8,7 @@ module.exports = (siteService) => {
         if (contentType === 'application/json') {
             siteService.addSite(req.body, req.cookies["x-access-token"])
                 .then((user) => res.json(req.body))
-                .catch((err) => res.error(err));
+                .catch((err) => res.json(err));
         }
     });
 
@@ -17,7 +17,7 @@ module.exports = (siteService) => {
         if (contentType === 'application/json') {
             siteService.delSite(req.body, req.cookies["x-access-token"])
                 .then((user) => res.json(req.body))
-                .catch((err) => res.error(err));
+                .catch((err) => res.json(err));
         }
     });
 

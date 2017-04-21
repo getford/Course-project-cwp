@@ -8,7 +8,7 @@ module.exports = (gotourlService, siteService, config) => {
     router.post('/checkurl', (req, res) => {
         gotourlService.checkURL(req.body, config, req.cookies[config.cookie.auth])
             .then((result) => res.json(result))
-            .catch((err) => res.error(err));
+            .catch((err) => res.json(err));
     });
 
     return router;

@@ -10,7 +10,7 @@ module.exports = (statisticRepository, config) => {
         let contentType = req.headers['content-type'];
         statisticRepository.showStat(req.body)
             .then((user) => res.json(req.body))
-            .catch((err) => res.error(err));
+            .catch((err) => res.json(err));
     });
 
     return router;

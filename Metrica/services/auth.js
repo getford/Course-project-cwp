@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const Promise = require("bluebird");
 const saltRounds = 10;
 
-module.exports = (userRepository, siteRepository, errors) => {
+module.exports = (userRepository, siteRepository, gotourlRepository, errors) => {
     return {login: login, register: register, accinfo: accinfo};
 
     function login(data) {
@@ -15,16 +15,18 @@ module.exports = (userRepository, siteRepository, errors) => {
             })
                 .then((user) => {
                     if (user === "")
-                        reject('user not found');
-                    bcrypt.compare(data.password.toString(), user.password.toString(),
-                        (err, result) => {
-                            if (result === true)
-                                resolve(user.id);
-                            else
-                                reject(errors.invalidPassword)
-                        });
+                        return reject(errors.unauthorized);
+                    else {
+                        bcrypt.compare(data.password.toString(), user.password.toString(),
+                            (err, result) => {
+                                if (result === true)
+                                    resolve(user.id);
+                                else
+                                    return reject(errors.unauthorized);
+                            });
+                    }
                 })
-                .catch(reject);
+                .catch(() => reject(errors.unauthorized));
         });
     }
 
@@ -35,7 +37,7 @@ module.exports = (userRepository, siteRepository, errors) => {
                     if (count > 0)
                         return reject({"error": "login in db"});
                     else if (data.login.length < 4 || data.password.length < 4)
-                        return reject(errors.wrongCredentials);
+                        return reject(errors.badRequest);
                     else {
                         return new Promise((resolve, reject) => {
                             bcrypt.hash(data.password.toString(), saltRounds, (err, hash) => {
@@ -66,12 +68,17 @@ module.exports = (userRepository, siteRepository, errors) => {
                 else {
                     userRepository.findAll({
                         where: {login: decode.__user_login},
+                        attributes: ['login'],
                         include: {
                             model: siteRepository,
                             where: {authId: decode.__user_id},
-                            attributes: ['url']
+                            attributes: ['url', 'key'],
+                            include: {
+                                model: gotourlRepository,
+                                where: {key: siteRepository.key},
+                                attributes: ['url', 'count']
+                            },
                         },
-                        attributes: ['login']
                     })
                         .then((result) => resolve(result))
                         .catch(() => reject(errors));

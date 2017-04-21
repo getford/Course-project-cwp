@@ -18,7 +18,7 @@ module.exports = (siteRepository, errors) => {
                     else {
                         jwt.verify(token, config.tokenKey, (err, decode) => {
                             if (err)
-                                reject(errors.Unauthorized);
+                                reject(errors.unauthorized);
                             else {
                                 let site = {
                                     authId: decode.__user_id,
@@ -43,7 +43,7 @@ module.exports = (siteRepository, errors) => {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err) {
-                    return reject(errors.Unauthorized);
+                    reject(errors.unauthorized);
                 } else {
                     siteRepository.findOne({where: {url: data.url}, attributes: ['authId']})
                         .then((result) => {
@@ -52,7 +52,7 @@ module.exports = (siteRepository, errors) => {
                                 return resolve({success: "site delete"});
                             }
                             else {
-                                reject(errors);
+                                reject(errors.forbidden);
                                 console.error('site is not u')
                             }
                         })

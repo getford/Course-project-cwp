@@ -1,20 +1,23 @@
 {
   "name": "mtr",
-  "version": "1.0.0",
+  "version": "1.4.3",
   "description": "Metrica app",
   "main": "index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "bluebird": "^3.4.7",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
-    "express": "^4.14.1",
+    "express": "^4.15.2",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",
-    "needle": "^1.6.0",
-    "sequelize": "^3.24.1"
+    "sequelize": "^3.30.4",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "siege": "^0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
