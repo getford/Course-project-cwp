@@ -8,16 +8,7 @@ module.exports = (Sequelize, sequelize) => {
             autoIncrement: true
         },
         url: Sequelize.STRING,
-        count: {
-            type: Sequelize.INTEGER,
-            defaultValue: 1
-        },
-        date: {
-            type: Sequelize.STRING,
-            defaultValue: date.getDate() +
-            "." + (date.getMonth() + 1) +
-            "." + date.getFullYear()
-        },
-        key: Sequelize.STRING
+        count: Sequelize.INTEGER,
+        date: Sequelize.STRING,
     });
 };

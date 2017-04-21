@@ -4,9 +4,10 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, errors) => {
-    return {checkURL: checkURL};
+    return { checkURL: checkURL };
 
     function checkURL(data, config, token) {
+        let addUrl = {};
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
@@ -16,8 +17,8 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                     reject(errors.unauthorized);
                 else {
                     siteRepository.findOne({
-                        where: {url: data.mainurl},
-                        attributes: ['authId', 'key']
+                        where: { url: data.mainurl },
+                        attributes: ['id', 'authId']
                     })
                         .then((result) => {
                             if (decode.__user_id === result.authId) {
@@ -27,12 +28,12 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                         url: cutUrl,
                                         date: dateNow
                                     },
-                                    attributes: ['url', 'count', 'date', 'key']
+                                    attributes: ['url', 'count', 'date', 'siteId']
                                 })
                                     .then((resultUrl) => {
-                                        if (resultUrl.date === dateNow && resultUrl.key === result.key) {
+                                        if (resultUrl.date === dateNow && resultUrl.siteId === result.id) {
                                             let tmpCount = resultUrl.count + 1;
-                                            gotourlRepository.update({count: tmpCount}, {
+                                            gotourlRepository.update({ count: tmpCount }, {
                                                 where: {
                                                     url: cutUrl,
                                                     date: dateNow
@@ -41,30 +42,33 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                             tmpCount = 0;
                                         }
                                         else {
-                                            let addUrl = {
+                                            addUrl = {
                                                 url: cutUrl,
                                                 count: 1,
                                                 date: dateNow,
-                                                key: result.key
+                                                siteId: result.id
                                             };
                                             Promise.all([gotourlRepository.create(addUrl)])
-                                                .then(() => resolve({success: "ok, success"}))
-                                                .catch(() => reject({success: "url was add"}));
+                                                .then(() => resolve({ success: "ok, success" }))
+                                                .catch(() => reject({ error: "site wasn't add" }));
                                         }
-                                        resolve({success: true});
+                                        resolve({ success: true });
                                     })
                                     .catch(() => {
-                                        let addUrl = {
+                                        addUrl = {
                                             url: cutUrl,
-                                            key: result.key
+                                            count: 1,
+                                            date: dateNow,
+                                            siteId: result.id
                                         };
+                                        console.log(addUrl.url + '\t' + addUrl.siteId);
                                         Promise.all([gotourlRepository.create(addUrl)])
-                                            .then(() => resolve({success: "ok, success"}))
-                                            .catch(() => reject({success: "url was add"}));
+                                            .then(() => resolve({ success: "ok, success" }))
+                                            .catch(() => reject({ error: "site wasn't add" }));
                                     });
                             }
                             else {
-                                return reject(errors);
+                                return reject(errors.forbidden);
                             }
                         })
                         .catch(() => reject(errors.notFound));

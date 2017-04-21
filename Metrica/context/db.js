@@ -42,6 +42,10 @@ module.exports = (Sequelize, config) => {
     Statistic.belongsTo(Gotourl);
     Gotourl.hasMany(Statistic);
 
+    // Site -> gotourl
+    Gotourl.belongsTo(Site);
+    Site.hasMany(Gotourl);
+
     return {
         auth: Auth,
         site: Site,

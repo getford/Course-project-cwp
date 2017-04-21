@@ -2,15 +2,10 @@ const express = require('express');
 
 express.response.error = (error) => {
     if (!error.code) {
-        error = {
-            message: 'Internal Server Error',
-            code: 'Internal_Server_Error',
-            status: 500
-        };
+        return error.internalServerError;
     }
     else
-        return error.code;
-        // this.error(error.status).JSON.error(error);
+        return error;
     /*тут изменить*/
 };
 
@@ -62,6 +57,11 @@ module.exports = {
     },
 
     // ошибки сервера
+    internalServerError: {
+        message: 'Internal Server Error',
+        code: 'Internal_Server_Error',
+        status: 500
+    },
     notImplemented: {   // Сервер либо не понимает метод в запросе,
         // либо не поддерживает возможностей, необходимых для обработки запроса
         message: ' Not Implemented',
@@ -76,7 +76,7 @@ module.exports = {
     },
 
 
-    // для резработчика
+// для резработчика
     DatabaseError: {
         message: 'Data base have some errors',
         code: 'db_error',

@@ -11,9 +11,8 @@ module.exports = (siteRepository, errors) => {
             siteRepository.count({where: [{url: data.url}]})
                 .then((count) => {
                     if (count > 0) {
-                        reject(errors.DatabaseError);
                         console.log('site in db');
-                        return reject;
+                        return reject(errors.DatabaseError);
                     }
                     else {
                         jwt.verify(token, config.tokenKey, (err, decode) => {
@@ -22,8 +21,7 @@ module.exports = (siteRepository, errors) => {
                             else {
                                 let site = {
                                     authId: decode.__user_id,
-                                    url: data.url,
-                                    key: Math.random().toString(36).slice(2, 20)
+                                    url: data.url
                                 };
                                 console.log(decode);
                                 Promise.all([siteRepository.create(site)])
@@ -34,7 +32,7 @@ module.exports = (siteRepository, errors) => {
                         });
                     }
                 })
-                .catch(reject);
+                .catch(() => reject(errors.notFound));
         });
     }
 
@@ -56,7 +54,7 @@ module.exports = (siteRepository, errors) => {
                                 console.error('site is not u')
                             }
                         })
-                        .catch(() => reject);
+                        .catch(() => reject(errors.notFound));
                 }
             });
         });

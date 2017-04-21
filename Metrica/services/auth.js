@@ -5,12 +5,12 @@ const Promise = require("bluebird");
 const saltRounds = 10;
 
 module.exports = (userRepository, siteRepository, gotourlRepository, errors) => {
-    return {login: login, register: register, accinfo: accinfo};
+    return { login: login, register: register, accinfo: accinfo };
 
     function login(data) {
         return new Promise((resolve, reject) => {
             userRepository.findOne({
-                where: {login: data.login},
+                where: { login: data.login },
                 attributes: ['id', 'login', 'password']
             })
                 .then((user) => {
@@ -32,10 +32,10 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
 
     function register(data) {
         return new Promise((resolve, reject) => {
-            userRepository.count({where: [{login: data.login}]})
+            userRepository.count({ where: [{ login: data.login }] })
                 .then((count) => {
                     if (count > 0)
-                        return reject({"error": "login in db"});
+                        return reject({ "error": "login in db" });
                     else if (data.login.length < 4 || data.password.length < 4)
                         return reject(errors.badRequest);
                     else {
@@ -55,8 +55,8 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                         password: hash
                     })
                 })
-                .then((data) => resolve({success: "user registered"}))
-                .catch(() => reject(errors));
+                .then((data) => resolve({ success: "user registered" }))
+                .catch(() => reject(errors.internalServerError));
         });
     }
 
@@ -66,24 +66,33 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                 if (err)
                     return reject(err);
                 else {
-                    userRepository.findAll({
-                        where: {login: decode.__user_login},
+                    userRepository.find({
+                        where: { login: decode.__user_login },
                         attributes: ['login'],
                         include: {
                             model: siteRepository,
-                            where: {authId: decode.__user_id},
-                            attributes: ['url', 'key'],
+                            where: { authId: decode.__user_id },
+                            attributes: ['id', 'url'],
                             include: {
                                 model: gotourlRepository,
-                                where: {key: siteRepository.key},
-                                attributes: ['url', 'count']
-                            },
+                                attributes: ['url', 'count', 'date']
+                            }
                         },
                     })
                         .then((result) => resolve(result))
-                        .catch(() => reject(errors));
+                        .catch(() => reject(errors.internalServerError));
                 }
             });
         });
     }
 };
+
+/*
+ siteRepository.findAll({
+                        where: {authId: decode.__user_id},
+                        attributes: ['id', 'url'],
+                        include: {
+                            model: gotourlRepository,
+                            attributes: ['url', 'count', 'date']
+                        },
+ */
