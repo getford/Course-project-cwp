@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     };
 
     console.log("url: http://localhost:3000" + res.locals.trace.url);
-   // console.log('date: ' + res.locals.trace.date);
+    console.log('date: ' + res.locals.trace.date);
     console.log('body: ' + JSON.stringify(res.locals.trace.body));
     // console.log('token: ' + JSON.stringify(res.locals.trace.cookies));
     console.log();

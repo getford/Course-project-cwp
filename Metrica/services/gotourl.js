@@ -7,6 +7,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
     return { checkURL: checkURL };
 
     function checkURL(data, config, token) {
+        let cutUrl = '';
         let addUrl = {};
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
@@ -22,7 +23,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                     })
                         .then((result) => {
                             if (decode.__user_id === result.authId) {
-                                let cutUrl = data.url.slice(data.mainurl.length, data.url.length);
+                                cutUrl = data.url.slice(data.mainurl.length, data.url.length);
                                 gotourlRepository.findOne({
                                     where: {
                                         url: cutUrl,
@@ -60,8 +61,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                             count: 1,
                                             date: dateNow,
                                             siteId: result.id
-                                        };
-                                        console.log(addUrl.url + '\t' + addUrl.siteId);
+                                        }; 
                                         Promise.all([gotourlRepository.create(addUrl)])
                                             .then(() => resolve({ success: "ok, success" }))
                                             .catch(() => reject({ error: "site wasn't add" }));

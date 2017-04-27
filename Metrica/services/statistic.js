@@ -10,7 +10,7 @@ module.exports = (statisticRepository, errors) => {
             console.log("ok it's statistic");
             jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err)
-                    reject(errors.Unauthorized);
+                    reject(errors.unauthorized);
                 else {
 
                 }
