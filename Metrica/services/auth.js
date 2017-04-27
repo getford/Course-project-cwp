@@ -75,7 +75,7 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                         include: {
                             model: siteRepository,
                             where: {authId: decode.__user_id},
-                            attributes: ['id', 'url'],
+                            attributes: ['url'],
                             include: {
                                 model: gotourlRepository,
                                 attributes: ['url', 'count', 'date']

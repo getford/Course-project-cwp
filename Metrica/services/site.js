@@ -43,10 +43,17 @@ module.exports = (siteRepository, gotourlRepository, errors) => {
                 if (err) {
                     reject(errors.unauthorized);
                 } else {
-                    siteRepository.findOne({where: {url: data.url}, attributes: ['authId']})
+                    siteRepository.findOne({where: {url: data.url}, attributes: ['id', 'authId']})
                         .then((result) => {
                             if (decode.__user_id === result.authId) {
-                                siteRepository.destroy({where: {authId: decode.__user_id, url: data.url}});
+                                siteRepository.destroy({
+                                    where: {authId: decode.__user_id, url: data.url},
+                                    include: {
+                                        model: gotourlRepository.destroy({
+                                            where: {siteId: result.id}
+                                        }),
+                                    },
+                                });
                                 return resolve({success: "site delete"});
                             }
                             else {
