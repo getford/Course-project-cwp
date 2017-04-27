@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const Promise = require("bluebird");
 
-module.exports = (siteRepository, errors) => {
+module.exports = (siteRepository, gotourlRepository, errors) => {
     return {addSite: addSite, delSite: delSite};
 
     function addSite(data, token) {
