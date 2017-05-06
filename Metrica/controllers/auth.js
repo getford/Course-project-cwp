@@ -6,8 +6,6 @@ const router = express.Router();
 module.exports = (authService, siteRepository, gotourlRepository, config) => {
 
     router.post('/login', (req, res) => {
-        //   let contentType = req.headers['content-type'];
-        //   if (contentType === 'application/json') {
         res.header('Content-Type', 'application/json');
         authService.login(req.body)
             .then((userId) => {
@@ -17,25 +15,18 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
             })
             .catch((error) => {
                 res.json(error);
-                console.error(error);
             });
-        //  }
     });
 
     router.post('/register', (req, res) => {
-        //    let contentType = req.headers['content-type'];
-        //    if (contentType === 'application/json') {
         res.header('Content-Type', 'application/json');
         authService.register(req.body)
             .then((user) => {
                 res.json(req.body);
-                console.log(user);
             })
             .catch((error) => {
                 res.json(error);
-                console.error(error);
             });
-        //   }
     });
 
     router.post('/logout', (req, res) => {

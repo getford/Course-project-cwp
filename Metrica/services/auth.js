@@ -34,7 +34,6 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
         return new Promise((resolve, reject) => {
             userRepository.count({where: [{login: data.login}]})
                 .then((count) => {
-                    console.error(data.login);
                     if (count > 0)
                         return reject({"error": "login in db"});
                     else {
@@ -46,17 +45,14 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                                     if (err)
                                         return reject(err);
                                     else
-                                        return resolve(hash);
+                                        return userRepository.create({
+                                            login: data.login,
+                                            password: hash
+                                        })
                                 });
                             });
                         }
                     }
-                })
-                .then(hash => {
-                    return userRepository.create({
-                        login: data.login,
-                        password: hash
-                    })
                 })
                 .then((data) => resolve({success: "user registered"}))
                 .catch(() => reject(errors.internalServerError));
