@@ -32,11 +32,18 @@ app.use('/api', auth);
 app.use('/api', cache);
 app.use('/api', apiController);
 
-console.log("http://localhost:3000");
+const port = 3000;
+
+//Route not found -- Set 404
+app.get('*', function (req, res) {
+    res.json({'route': 'Sorry this page does not exist!'});
+});
+
+console.log("http://localhost:" + port);
 db.sequelize
     .sync()
     .then(() => {
-        app.listen(3000, () => {
+        app.listen(port, () => {
             console.log("host:\t" + config.db.host);
             console.log("name:\t" + config.db.name);
             console.log("user:\t" + config.db.user);
