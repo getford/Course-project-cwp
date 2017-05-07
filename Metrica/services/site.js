@@ -54,7 +54,7 @@ module.exports = (siteRepository, gotourlRepository, errors) => {
                                         }),
                                     },
                                 });
-                                return resolve({success: "site delete"});
+                                return resolve();
                             }
                             else {
                                 reject(errors.forbidden);

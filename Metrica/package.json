@@ -14,7 +14,8 @@
     "sequelize": "^3.30.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "siege": "^0.2.0"
+    "siege": "^0.2.0",
+    "chartjs": "^0.3.24"
   },
   "devDependencies": {
   },

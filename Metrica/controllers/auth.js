@@ -22,7 +22,7 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
         res.header('Content-Type', 'application/json');
         authService.register(req.body)
             .then((user) => {
-                res.json(req.body);
+                res.json({success: "user was registered"});
             })
             .catch((error) => {
                 res.json(error);

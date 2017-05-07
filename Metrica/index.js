@@ -3,6 +3,7 @@ const express = require('express');
 const Sequelize = require('sequelize');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const config = require('./config');
 const errors = require('./utils/errors');
@@ -24,6 +25,8 @@ const cache = require('./utils/cache')(cacheService);
 
 const app = express();
 
+app.use(express.static('public'));          // для страниц
+
 app.use(cookieParser(config.cookie.key));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,18 +35,20 @@ app.use('/api', auth);
 app.use('/api', cache);
 app.use('/api', apiController);
 
-const port = 3000;
-
 //Route not found -- Set 404
-app.get('*', function (req, res) {
-    res.json({'route': 'Sorry this page does not exist!'});
+//app.get('*', (req, res) => {
+  //  res.json({'route': 'Sorry this page does not exist!'});
+//});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname + "/public/html/index.html"));
 });
 
-console.log("http://localhost:" + port);
+console.log("http://localhost:" + config.port);
 db.sequelize
     .sync()
     .then(() => {
-        app.listen(port, () => {
+        app.listen(config.port, () => {
             console.log("host:\t" + config.db.host);
             console.log("name:\t" + config.db.name);
             console.log("user:\t" + config.db.user);

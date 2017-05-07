@@ -44,11 +44,13 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                                 bcrypt.hash(data.password.toString(), saltRounds, (err, hash) => {
                                     if (err)
                                         return reject(err);
-                                    else
-                                        return userRepository.create({
+                                    else {
+                                        userRepository.create({
                                             login: data.login,
                                             password: hash
-                                        })
+                                        });
+                                        return resolve({success: "user registered"});
+                                    }
                                 });
                             });
                         }
@@ -78,7 +80,12 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                             }
                         },
                     })
-                        .then((result) => resolve(result))
+                        .then((result) => {
+                            if (result === null)
+                                resolve({success: "User don't have sites"});
+                            else
+                                resolve(result);
+                        })
                         .catch(() => reject(errors.internalServerError));
                 }
             });
