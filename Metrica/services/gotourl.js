@@ -4,7 +4,7 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, errors) => {
-    return { checkURL: checkURL };
+    return {checkURL: checkURL};
 
     function checkURL(data, config, token) {
         let cutUrl = '';
@@ -18,7 +18,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                     reject(errors.unauthorized);
                 else {
                     siteRepository.findOne({
-                        where: { url: data.mainurl },
+                        where: {url: data.mainurl},
                         attributes: ['id', 'authId']
                     })
                         .then((result) => {
@@ -34,7 +34,7 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                     .then((resultUrl) => {
                                         if (resultUrl.date === dateNow && resultUrl.siteId === result.id) {
                                             let tmpCount = resultUrl.count + 1;
-                                            gotourlRepository.update({ count: tmpCount }, {
+                                            gotourlRepository.update({count: tmpCount}, {
                                                 where: {
                                                     url: cutUrl,
                                                     date: dateNow
@@ -50,10 +50,10 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                                 siteId: result.id
                                             };
                                             Promise.all([gotourlRepository.create(addUrl)])
-                                                .then(() => resolve({ success: "ok, success" }))
-                                                .catch(() => reject({ error: "site wasn't add" }));
+                                                .then(() => resolve({success: "ok, success"}))
+                                                .catch(() => reject({error: "site wasn't add"}));
                                         }
-                                        resolve({ success: true });
+                                        resolve({success: true});
                                     })
                                     .catch(() => {
                                         addUrl = {
@@ -61,10 +61,10 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                                             count: 1,
                                             date: dateNow,
                                             siteId: result.id
-                                        }; 
+                                        };
                                         Promise.all([gotourlRepository.create(addUrl)])
-                                            .then(() => resolve({ success: "ok, success" }))
-                                            .catch(() => reject({ error: "site wasn't add" }));
+                                            .then(() => resolve({success: "ok, success"}))
+                                            .catch(() => reject({error: "site wasn't add"}));
                                     });
                             }
                             else {
@@ -73,7 +73,6 @@ module.exports = (gotourlRepository, siteRepository, errors) => {
                         })
                         .catch(() => reject(errors.notFound));
                 }
-
             });
         });
     }

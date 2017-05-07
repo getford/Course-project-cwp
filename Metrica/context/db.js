@@ -17,7 +17,6 @@ module.exports = (Sequelize, config) => {
 
     const Auth = require('../model/auth')(Sequelize, sequelize);
     const Site = require('../model/site')(Sequelize, sequelize);
-    const Statistic = require('../model/statistic')(Sequelize, sequelize);
     const Error = require('../model/error')(Sequelize, sequelize);
     const Click = require('../model/click')(Sequelize, sequelize);
     const Gotourl = require('../model/gotourl')(Sequelize, sequelize);
@@ -26,21 +25,13 @@ module.exports = (Sequelize, config) => {
     Site.belongsTo(Auth);
     Auth.hasMany(Site);
 
-    // Statistic -> Site
-    Statistic.belongsTo(Site);
-    Site.hasMany(Statistic);
+    // Site -> Errors
+    Error.belongsTo(Site);
+    Site.hasMany(Error);
 
-    // Statistic -> Errors
-    Statistic.belongsTo(Error);
-    Error.hasMany(Statistic);
-
-    // Statistic -> Click
-    Statistic.belongsTo(Click);
-    Click.hasMany(Statistic);
-
-    // Statistic -> Gotourl
-    Statistic.belongsTo(Gotourl);
-    Gotourl.hasMany(Statistic);
+    // Site -> Click
+    Click.belongsTo(Site);
+    Site.hasMany(Click);
 
     // Site -> gotourl
     Gotourl.belongsTo(Site);
@@ -49,7 +40,6 @@ module.exports = (Sequelize, config) => {
     return {
         auth: Auth,
         site: Site,
-        statistic: Statistic,
         error: Error,
         click: Click,
         gotourl: Gotourl,

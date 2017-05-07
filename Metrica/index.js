@@ -12,12 +12,12 @@ const db = require('./context/db')(Sequelize, config);
 
 const authService = require('./services/auth')(db.auth, db.site, db.gotourl, errors);
 const siteService = require('./services/site')(db.site, db.gotourl, errors);
-const statisticService = require('./services/statistic')(db.statistic, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, errors);
+const errorService = require('./services/error')(db.error, errors);
 const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService,
-    statisticService, gotourlService, cacheService, config);
+    errorService, gotourlService, cacheService, config);
 
 const auth = require('./utils/auth')(authService, config, errors);
 const cache = require('./utils/cache')(cacheService);

@@ -5,6 +5,7 @@ module.exports = (Sequelize, sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
+
         element: Sequelize.STRING,
         count: Sequelize.INTEGER
     });

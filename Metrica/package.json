@@ -1,6 +1,6 @@
 {
   "name": "mtr",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Metrica app",
   "main": "index.js",
   "dependencies": {
@@ -9,7 +9,7 @@
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
-    "jsonwebtoken": "^7.3.0",
+    "jsonwebtoken": "^7.4.0",
     "mysql": "^2.13.0",
     "sequelize": "^3.30.4",
     "react": "^15.5.4",

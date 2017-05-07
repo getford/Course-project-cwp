@@ -5,7 +5,7 @@ module.exports = (Sequelize, sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        numErr: Sequelize.INTEGER,
+        number: Sequelize.INTEGER,
         url: Sequelize.STRING,
         text: Sequelize.STRING,
         count: Sequelize.INTEGER
