@@ -25,8 +25,7 @@ const cache = require('./utils/cache')(cacheService);
 
 const app = express();
 
-app.use(express.static('public'));          // для страниц
-
+app.use(express.static('public'));
 app.use(cookieParser(config.cookie.key));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,14 +34,18 @@ app.use('/api', auth);
 app.use('/api', cache);
 app.use('/api', apiController);
 
-//Route not found -- Set 404
-//app.get('*', (req, res) => {
-  //  res.json({'route': 'Sorry this page does not exist!'});
-//});
-
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname + "/public/html/index.html"));
 });
+
+app.get('/registration.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname + "/public/html/registration.html"));
+});
+
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname + "/public/html/login.html"));
+});
+
 
 console.log("http://localhost:" + config.port);
 db.sequelize
