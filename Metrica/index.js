@@ -46,6 +46,9 @@ app.get('/login.html', (req, res) => {
     res.sendFile(path.resolve(__dirname + "/public/html/login.html"));
 });
 
+app.get('/manage.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname + "/public/html/manage.html"));
+});
 
 console.log("http://localhost:" + config.port);
 db.sequelize

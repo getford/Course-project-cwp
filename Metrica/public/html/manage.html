@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage page</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <script src="../jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../script/manage.js"></script>
+
+</head>
+<body onload="getlogin()">
+<form>
+    <legend>
+        <h1>Manage page
+            <h4>
+                Вы авторизованы как:
+                <div id="userLogin"></div>
+            </h4>
+        </h1>
+    </legend>
+</form>
+
+<form>
+    <h4>Добавить / удалить сайт</h4>
+    <input type="text" id="siteurl" placeholder="site url"/>
+    <input type="button" id="btnaddsite" value="add site"/>
+    <input type="button" id="btndeletesite" value="delete site"/>
+
+    <div class="alert alert-success" id="messageAddSite">
+    </div>
+</form>
+
+<hr/>
+
+<form>
+    <h4>Ваши сайты</h4>
+</form>
+
+</body>
+</html>

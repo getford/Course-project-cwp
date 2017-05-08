@@ -1,5 +1,4 @@
 function login() {
-    $("#result").text("");
     let lgn = {
         "login": $("#login").val(),
         "password": $("#password").val()
@@ -10,7 +9,10 @@ function login() {
         data: lgn,
         headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
-            $("#result").text(JSON.stringify(result));
+            if(result) {
+                $("#result").text(JSON.stringify(result));
+                window.location.href = "../manage.html";
+            }
         },
         error: (err) => {
             $("#result").text(JSON.stringify(err));

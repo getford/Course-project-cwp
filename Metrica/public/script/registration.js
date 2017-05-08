@@ -1,5 +1,4 @@
 function register() {
-    $("#result").text("");
     let reg = {
         "login": $("#login").val(),
         "password": $("#password").val()
