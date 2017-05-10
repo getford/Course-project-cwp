@@ -77,12 +77,12 @@ function drawRow(rowData) {
 
 /*Число переходов по страницам*/
 
-function myGotoUrlCount() {
+function myGotoUrlCount(data) {
     $.ajax({
         url: "http://localhost:3000/api/gotourl/infourls",
         type: "POST",
         dataType: "json",
-        data: {"url": "qwe.com"},
+        data: {"url": data},
         success: (data) => {
             dt(data);
         }
