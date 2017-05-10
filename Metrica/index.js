@@ -13,7 +13,7 @@ const db = require('./context/db')(Sequelize, config);
 
 const authService = require('./services/auth')(db.auth, db.site, db.gotourl, errors);
 const siteService = require('./services/site')(db.site, db.gotourl, errors);
-const gotourlService = require('./services/gotourl')(db.gotourl, db.site, errors);
+const gotourlService = require('./services/gotourl')(db.gotourl, db.site, db.auth, errors);
 const errorService = require('./services/error')(db.error, errors);
 const cacheService = require('./services/cache');
 

@@ -7,9 +7,6 @@ module.exports = (Sequelize, sequelize) => {
         },
         login: Sequelize.STRING,
         password: Sequelize.STRING,
-        cache: {
-            type: Sequelize.INTEGER,
-            defaultValue: 100
-        }
+        key: Sequelize.STRING
     });
 };

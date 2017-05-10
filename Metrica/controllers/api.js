@@ -6,7 +6,7 @@ module.exports = (authService, siteService, errorService, gotourlService, cacheS
     const authController = require('./auth')(authService, siteService, gotourlService, config);
     const siteController = require('./site')(siteService, gotourlService);
     const errorController = require('./error')(errorService);
-    const gotourlController = require('./gotourl')(gotourlService, siteService, config);
+    const gotourlController = require('./gotourl')(gotourlService, siteService, authService, config);
 
     router.use('/auth', authController);
     router.use('/site', siteController);

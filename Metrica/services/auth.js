@@ -45,9 +45,11 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                                     if (err)
                                         return reject(err);
                                     else {
+                                        let key = Math.random().toString(36).slice(2, 20);
                                         userRepository.create({
                                             login: data.login,
-                                            password: hash
+                                            password: hash,
+                                            key: key
                                         });
                                         return resolve({success: "user registered"});
                                     }
