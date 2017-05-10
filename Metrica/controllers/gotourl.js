@@ -11,13 +11,11 @@ module.exports = (gotourlService, siteService, authService, config) => {
             .catch((err) => res.json(err));
     });
 
+    router.post('/infourls', (req, res) => {
+        gotourlService.infoUrls(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
     return router;
 };
-
-/*
- router.post('/checkurl', (req, res) => {
- gotourlService.checkURL(req.body, config, req.cookies["x-access-token"])
- .then((result) => res.json(result))
- .catch((err) => res.json(err));
- });
- */

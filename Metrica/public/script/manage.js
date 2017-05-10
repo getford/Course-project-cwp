@@ -50,18 +50,57 @@ function delsite() {
     })
 }
 
+/*Сайты в табцицу*/
 function mySites() {
     $.ajax({
         url: "http://localhost:3000/api/site/mysites",
         type: "GET",
+        dataType: "json",
         headers: {"Authorization": localStorage.getItem('x-access-token')},
-        success: (result) => {
-            if (result) {
-                $("#mysites").text(JSON.stringify(result));
-                return result;
-            }
+        success: (data) => {
+            drawTable(data);
         }
     })
+}
+
+function drawTable(data) {
+    for (let i = 0; i < data.length; i++) {
+        drawRow(data[i]);
+    }
+}
+
+function drawRow(rowData) {
+    let row = $("<tr />");
+    $("#mysitetable").append(row);
+    row.append($("<td>" + rowData.url + "</td>"));
+}
+
+/*Число переходов по страницам*/
+
+function myGotoUrlCount() {
+    $.ajax({
+        url: "http://localhost:3000/api/gotourl/infourls",
+        type: "POST",
+        dataType: "json",
+        data: {"url": "qwe.com"},
+        success: (data) => {
+            dt(data);
+        }
+    })
+}
+
+function dt(data) {
+    for (let i = 0; i < data.length; i++) {
+        dr(data[i]);
+    }
+}
+
+function dr(rowData) {
+    let row = $("<tr />");
+    $("#mygotourltable").append(row);
+    row.append($("<td>" + rowData.url + "</a></td>"));
+    row.append($("<td>" + rowData.count + "</td>"));
+    row.append($("<td>" + rowData.date + "</td>"));
 }
 
 $(document).ready(() => {

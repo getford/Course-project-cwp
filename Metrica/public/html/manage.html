@@ -14,10 +14,11 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
     <script src="../jquery-3.2.1.min.js"></script>
+    <script src="../jquery.dynatable.js"></script>
     <script type="text/javascript" src="../script/manage.js"></script>
 
 </head>
-<body onload="getlogin(); mySites()">
+<body onload="getlogin(); mySites(); myGotoUrlCount()">
 <form>
     <legend>
         <h1>Manage page
@@ -43,9 +44,24 @@
 
 <form>
     <h4>Ваши сайты</h4>
-    <div id="mysites">
+    <table id="mysitetable" border="1">
+        <tr>
+            <th>URL</th>
+        </tr>
+    </table>
+</form>
 
-    </div>
+<hr/>
+
+<form>
+    <h4>Число переходов по страницам</h4>
+    <table id="mygotourltable" border="1">
+        <tr>
+            <th>url</th>
+            <th>count</th>
+            <th>date</th>
+        </tr>
+    </table>
 </form>
 
 </body>
