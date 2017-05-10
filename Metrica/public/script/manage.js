@@ -50,6 +50,20 @@ function delsite() {
     })
 }
 
+function mySites() {
+    $.ajax({
+        url: "http://localhost:3000/api/site/mysites",
+        type: "GET",
+        headers: {"Authorization": localStorage.getItem('x-access-token')},
+        success: (result) => {
+            if (result) {
+                $("#mysites").text(JSON.stringify(result));
+                return result;
+            }
+        }
+    })
+}
+
 $(document).ready(() => {
     $("#btnaddsite").click(addsite);
 });

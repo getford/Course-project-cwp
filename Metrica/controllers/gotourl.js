@@ -7,7 +7,7 @@ module.exports = (gotourlService, siteService, authService, config) => {
 
     router.post('/checkurl', (req, res) => {
         gotourlService.checkURL(req.body)
-            .then((result) => res.json(result))
+            .then((result) => res.json({success: "ok, success"}))
             .catch((err) => res.json(err));
     });
 

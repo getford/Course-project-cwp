@@ -15,10 +15,11 @@ const authService = require('./services/auth')(db.auth, db.site, db.gotourl, err
 const siteService = require('./services/site')(db.site, db.gotourl, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, db.auth, errors);
 const errorService = require('./services/error')(db.error, errors);
+const clickService = require('./services/click')(db.click, db.site, db.auth, errors);
 const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService,
-    errorService, gotourlService, cacheService, config);
+    errorService, gotourlService, clickService, cacheService, config);
 
 const auth = require('./utils/auth')(authService, config, errors);
 const cache = require('./utils/cache')(cacheService);

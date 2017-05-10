@@ -3,7 +3,7 @@ const config = require('../config');
 const Promise = require("bluebird");
 
 module.exports = (siteRepository, gotourlRepository, errors) => {
-    return {addSite: addSite, delSite: delSite};
+    return {addSite: addSite, delSite: delSite, mySites:mySites};
 
     function addSite(data, token) {
         "use strict";
@@ -65,5 +65,24 @@ module.exports = (siteRepository, gotourlRepository, errors) => {
                 }
             });
         });
+    }
+
+    function mySites(token) {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err) {
+                    reject(errors.unauthorized);
+                } else {
+                    siteRepository.findAll({
+                        where: {authId: decode.__user_id},
+                        attributes: ['url']
+                    })
+                        .then((result) => {
+                            resolve(result);
+                        })
+                        .catch(() => reject(errors.notFound));
+                }
+            })
+        })
     }
 };
