@@ -76,7 +76,6 @@ function drawRow(rowData) {
 }
 
 /*Число переходов по страницам*/
-
 function myGotoUrlCount(data) {
     $.ajax({
         url: "http://localhost:3000/api/gotourl/infourls",
@@ -84,9 +83,10 @@ function myGotoUrlCount(data) {
         dataType: "json",
         data: {"url": data},
         success: (data) => {
-            dt(data);
+            //dt(data);
+            alert(data);
         }
-    })
+    });
 }
 
 function dt(data) {
@@ -98,10 +98,29 @@ function dt(data) {
 function dr(rowData) {
     let row = $("<tr />");
     $("#mygotourltable").append(row);
-    row.append($("<td>" + rowData.url + "</a></td>"));
+    row.append($("<td>" + rowData.url + "</td>"));
     row.append($("<td>" + rowData.count + "</td>"));
     row.append($("<td>" + rowData.date + "</td>"));
 }
+
+/*Графики число переходов по дням*/
+function graph() {
+    google.load("visualization", "1", {packages: ["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        let data = google.visualization.arrayToDataTable([
+            ['url', 'count'],
+        ]);
+        let options = {
+            title: 'Статистика переходов за день',
+            hAxis: {title: 'URL'},
+            vAxis: {title: 'Число переходов'}
+        };
+        let chart = new google.visualization.ColumnChart(document.getElementById('oil'));
+        chart.draw(data, options);
+    }
+}
+
 
 $(document).ready(() => {
     $("#btnaddsite").click(addsite);
@@ -110,3 +129,20 @@ $(document).ready(() => {
 $(document).ready(() => {
     $("#btndeletesite").click(delsite);
 });
+
+$("#oil").load(graph());
+
+
+/*
+ function myGotoUrlCount(data) {
+ $.ajax({
+ url: "http://localhost:3000/api/gotourl/infourls",
+ type: "POST",
+ dataType: "json",
+ data: {"url": data},
+ success: (data) => {
+ dt(data);
+ }
+ })
+ }
+ */

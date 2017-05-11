@@ -6,7 +6,14 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
 
     function catchClicks(data) {
         return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id', 'url', 'authId']
+            })
+                .then((resultSR) => {
 
+                })
+                .catch(() => reject(errors.notFound));
         })
 
     }

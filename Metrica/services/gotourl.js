@@ -4,7 +4,7 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, userRepository, errors) => {
-    return {checkURL: checkURL, infoUrls: infoUrls};
+    return {checkURL: checkURL, infoUrls: infoUrls, sumForDay: sumForDay};
 
     function checkURL(data) {
         let cutUrl = '';
@@ -85,6 +85,9 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
     }
 
     function infoUrls(data) {
+        let dateNow = date.getDate() +
+            "." + (date.getMonth() + 1) +
+            "." + date.getFullYear();
         return new Promise((resolve, reject) => {
             siteRepository.findOne({
                 where: {url: data.url},
@@ -92,11 +95,66 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
             })
                 .then((resultSR) => {
                     gotourlRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['url', 'count', 'date']
+                        where: {siteId: resultSR.id, date: dateNow},
+                        attributes: ['url', 'count']
                     })
                         .then((resultGR) => {
-                            resolve(resultGR);
+                            let countArr = [];
+                            resultGR.forEach((value) => {
+                                let element = [value.url, value.count];
+                                countArr.push(element);
+
+
+                            });
+
+                            //   let tmp = countArr.slice(0, countArr.length - 1);
+                            let tmp = JSON.stringify(countArr);
+                            let l = tmp.substring(1, tmp.length - 1);
+
+                            console.log(countArr);
+                            console.log(l);
+
+                            resolve(l);
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function sumForDay(data) {
+        let dateNow = date.getDate() +
+            "." + (date.getMonth() + 1) +
+            "." + date.getFullYear();
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    gotourlRepository.findAll({
+                        where: {siteId: resultSR.id, date: dateNow},
+                        attributes: ['count', 'date']
+                    })
+                        .then((resultGR) => {
+                            let countArr = [];
+                            resultGR.forEach((value) => {
+                                let element = value.count;
+                                countArr.push(element);
+                            });
+
+                            console.log(countArr);
+
+                            let resultSum = 0;
+                            for (i = 0; i < countArr.length; i++)
+                                resultSum += countArr[i];
+
+                            let resJson = {
+                                "sumCount": resultSum,
+                                "date": dateNow
+                            };
+
+                            resolve(resJson);
                         })
                         .catch(() => reject(errors.notFound));
                 })

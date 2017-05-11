@@ -3,8 +3,12 @@ const Promise = require("bluebird");
 
 let date = new Date();
 
-module.exports = (errorRepository, errors) => {
-    return {};
+module.exports = (errorRepository, siteRepository, errors) => {
+    return {catchErrors: catchErrors};
 
+    function catchErrors(data) {
+        return new Promise((resolve, reject) => {
 
+        })
+    }
 };

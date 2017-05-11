@@ -7,15 +7,16 @@ function login() {
         url: "http://localhost:3000/api/auth/login",
         type: "POST",
         data: lgn,
-        headers: {"Authorization": localStorage.getItem('x-access-token')},
+      //  headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
-            if(result) {
-                $("#result").text(JSON.stringify(result));
+            alert(JSON.stringify(result));
+            if (result) {
+                //$("#result").text(JSON.stringify(result));
                 window.location.href = "../manage.html";
             }
         },
         error: (err) => {
-            $("#result").text(JSON.stringify(err));
+            $("#errlogin").text(JSON.stringify(err));
         }
     })
 }

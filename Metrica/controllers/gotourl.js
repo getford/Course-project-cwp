@@ -17,5 +17,11 @@ module.exports = (gotourlService, siteService, authService, config) => {
             .catch((err) => res.json(err));
     });
 
+    router.post('/sumforday', (req, res) => {
+        gotourlService.sumForDay(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
     return router;
 };

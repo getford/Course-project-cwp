@@ -9,25 +9,24 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
 
     function login(data) {
         return new Promise((resolve, reject) => {
-            userRepository.findOne({
-                where: {login: data.login},
-                attributes: ['id', 'login', 'password']
-            })
-                .then((user) => {
-                    if (user === "")
-                        return reject(errors.unauthorized);
-                    else {
-                        bcrypt.compare(data.password.toString(), user.password.toString(),
-                            (err, result) => {
-                                if (result === true)
-                                    resolve(user.id);
-                                else
-                                    return reject(errors.unauthorized);
-                            });
-                    }
+                userRepository.findOne({
+                    where: {login: data.login},
+                    attributes: ['id', 'login', 'password']
                 })
-                .catch(() => reject(errors.unauthorized));
-        });
+                    .then((user) => {
+                        if (user === "")
+                            reject(errors.unauthorized);
+                        else {
+                            bcrypt.compare(data.password.toString(), user.password.toString())
+                                .then((result) => {
+                                    resolve(user.id);
+                                })
+                                .catch(() => reject(errors.unauthorized));
+                        }
+                    })
+                    .catch(() => reject(errors.unauthorized));
+            }
+        );
     }
 
     function register(data) {
@@ -105,4 +104,5 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
             });
         });
     }
-};
+}
+;
