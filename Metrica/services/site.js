@@ -3,7 +3,7 @@ const config = require('../config');
 const Promise = require("bluebird");
 
 module.exports = (siteRepository, gotourlRepository, errors) => {
-    return {addSite: addSite, delSite: delSite, mySites:mySites};
+    return {addSite: addSite, delSite: delSite, mySites: mySites};
 
     function addSite(data, token) {
         "use strict";
@@ -19,14 +19,18 @@ module.exports = (siteRepository, gotourlRepository, errors) => {
                             if (err)
                                 reject(errors.unauthorized);
                             else {
-                                let site = {
-                                    authId: decode.__user_id,
-                                    url: data.url
-                                };
-                                console.log(decode);
-                                Promise.all([siteRepository.create(site)])
-                                    .then(() => resolve())
-                                    .catch(() => reject());
+                                if (data.url !== "") {
+                                    let site = {
+                                        authId: decode.__user_id,
+                                        url: data.url
+                                    };
+                                    console.log(decode);
+                                    Promise.all([siteRepository.create(site)])
+                                        .then(() => resolve())
+                                        .catch(() => reject());
+                                }
+                                else
+                                    reject(errors);
                             }
                             return resolve;
                         });

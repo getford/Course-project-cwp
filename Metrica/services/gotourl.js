@@ -103,18 +103,11 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                             resultGR.forEach((value) => {
                                 let element = [value.url, value.count];
                                 countArr.push(element);
-
-
                             });
-
-                            //   let tmp = countArr.slice(0, countArr.length - 1);
                             let tmp = JSON.stringify(countArr);
                             let l = tmp.substring(1, tmp.length - 1);
-
-                            console.log(countArr);
-                            console.log(l);
-
-                            resolve(l);
+                          //  console.log(l);
+                            return resolve(l);
                         })
                         .catch(() => reject(errors.notFound));
                 })

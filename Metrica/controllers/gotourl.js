@@ -13,7 +13,10 @@ module.exports = (gotourlService, siteService, authService, config) => {
 
     router.post('/infourls', (req, res) => {
         gotourlService.infoUrls(req.body)
-            .then((result) => res.json(result))
+            .then((result) => {
+                res.json(result);
+                console.log(result);
+            })
             .catch((err) => res.json(err));
     });
 

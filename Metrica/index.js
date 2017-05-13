@@ -11,6 +11,7 @@ const logger = require('./utils/logger');
 
 const db = require('./context/db')(Sequelize, config);
 
+
 const authService = require('./services/auth')(db.auth, db.site, db.gotourl, errors);
 const siteService = require('./services/site')(db.site, db.gotourl, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, db.auth, errors);

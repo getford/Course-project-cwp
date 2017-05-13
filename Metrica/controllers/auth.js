@@ -7,10 +7,13 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
 
     router.post('/login', (req, res) => {
         authService.login(req.body)
-            .then((userId) => {
-                let token = jwt.sign({__user_id: userId, __user_login: req.body.login}, config.tokenKey);
+            .then((data) => {
+                let token = jwt.sign({
+                    __user_id: data.id,
+                    __user_login: req.body.login
+                }, config.tokenKey);
                 res.cookie('x-access-token', token);
-                res.json({success: "login success"});
+                res.json({ success: "login success" });
             })
             .catch((error) => res.json(error));
     });
@@ -19,7 +22,7 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
         res.header('Content-Type', 'application/json');
         authService.register(req.body)
             .then((user) => {
-                res.json({success: "user was registered"});
+                res.json({ success: "user was registered" });
             })
             .catch((error) => {
                 res.json(error);
@@ -28,7 +31,7 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
 
     router.post('/logout', (req, res) => {
         res.cookie(config.cookie.auth, '');
-        res.json({success: true});
+        res.json({ success: true });
     });
 
     router.get('/accinfo', (req, res) => {
