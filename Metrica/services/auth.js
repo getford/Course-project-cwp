@@ -20,8 +20,7 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                         bcrypt.compare(data.password.toString(), user.password.toString())
                             .then((result) => {
                                 if (result === true) {
-                                    console.log(user.key);
-                                    resolve(user.key);
+                                    resolve(user);
                                 }
                                 else {
                                     reject(errors.unauthorized);
@@ -31,8 +30,7 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                     }
                 })
                 .catch(() => reject(errors.unauthorized));
-        }
-        );
+        });
     }
 
     function register(data) {
@@ -89,7 +87,7 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                     })
                         .then((result) => {
                             if (result === null)
-                                resolve({ success: "User don't have sites" });
+                                resolve({ error: "User don't have sites" });
                             else
                                 resolve(result);
                         })

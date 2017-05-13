@@ -7,6 +7,7 @@ module.exports = (Sequelize, sequelize) => {
         },
 
         element: Sequelize.STRING,
-        count: Sequelize.INTEGER
+        count: Sequelize.INTEGER,
+        date: Sequelize.STRING
     });
 };
