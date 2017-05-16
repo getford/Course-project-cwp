@@ -99,15 +99,16 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                         attributes: ['url', 'count']
                     })
                         .then((resultGR) => {
+                           // console.log(resultGR);
                             let countArr = [];
                             resultGR.forEach((value) => {
                                 let element = [value.url, value.count];
                                 countArr.push(element);
                             });
-                            let tmp = JSON.stringify(countArr);
-                            let l = tmp.substring(1, tmp.length - 1);
-                          //  console.log(l);
-                            return resolve(l);
+                            //let tmp = JSON.stringify(countArr);
+                            // let l = tmp.substring(1, tmp.length - 1);
+                            //  console.log(l);
+                            return resolve(resultGR);
                         })
                         .catch(() => reject(errors.notFound));
                 })
@@ -154,5 +155,5 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                 .catch(() => reject(errors.notFound));
         })
     }
-    
+
 };

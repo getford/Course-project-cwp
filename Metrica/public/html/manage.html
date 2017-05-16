@@ -13,8 +13,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js"></script>
 
-    <script src="https://www.google.com/jsapi"></script>
-
     <script src="../jquery-3.2.1.min.js"></script>
     <script src="../jquery.dynatable.js"></script>
 
@@ -57,34 +55,37 @@
     </table>
 </form>
 
-<div id="oil" style="width: 700px; height: 600px;"></div>
-
 <hr/>
-<div id="myfirstchart" style="height: 250px;"></div>
+
+<div id="bar-example" style="height: 250px; width: 300px"></div>
+
 <script>
-
-    let tmp = [{"year": '2008', "value": 20},
-        {"year": '2009', "value": 10},
-        {"year": '2010', "value": 50},
-        {"year": '2011', "value": 5},
-        {"year": '2012', "value": 20}];
-
-    new Morris.Line({
-        // ID of the element in which to draw the chart.
-        element: 'myfirstchart',
-        // Chart data records -- each entry in this array corresponds to a point on
-        // the chart.
-        data: tmp,
-        // The name of the data record attribute that contains x-values.
-        xkey: 'year',
-        // A list of names of data record attributes that contain y-values.
-        ykeys: ['value'],
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
-        labels: ['Value']
+    let json = JSON.stringify({
+        url: "qwe.com"
     });
-</script>
 
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.send(json);
+    xhr.onload = function (e) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText + "\t\t\t\t\t\t\wadcccccccccccc");
+
+            let a = JSON.parse(xhr.responseText);
+            console.log(a + "\t\t\t\t\t\t\wadcccccc111111111111111111cccccc");
+            Morris.Bar({
+                element: 'bar-example',
+                data: a,
+                xkey: 'url',
+                ykeys: ['count'],
+                labels: ['Count']
+            });
+            return xhr.responseText;
+        }
+    };
+
+</script>
 
 </body>
 </html>
