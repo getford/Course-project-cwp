@@ -29,8 +29,8 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
             });
     });
 
-    router.post('/logout', (req, res) => {
-        res.cookie(config.cookie.auth, '');
+    router.get('/logout', (req, res) => {
+        res.cookie(config.cookie.auth, "");
         res.json({success: true});
     });
 

@@ -7,9 +7,20 @@ function getlogin() {
         success: (result) => {
             if (result) {
                 user = JSON.stringify(result);
+                console.log(user);
                 $('#userLogin').text(JSON.stringify(result));
                 return result;
             }
+        }
+    })
+}
+
+function logout() {
+    $.ajax({
+        url: "http://" + window.location.host.toString() + "/api/auth/logout",
+        type: "GET",
+        success: (result) => {
+            window.location.href = "../login.html";
         }
     })
 }
@@ -390,8 +401,6 @@ function toPDF() {
                             doc.text("Click's", 9, 205);
                             doc.addImage(imgClick, 'PNG', 9, 210, 50, 70);
 
-                            doc.text("All data", 60, 65);
-                            doc.text("This data: " + dateNow, 60, 100);
                             doc.save("Report_" + dateNow + '.pdf');
                         });
                 });
