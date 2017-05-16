@@ -5,16 +5,16 @@
     "name": "metrica",
     "user": "root",
     "password": "",
-	"port":"3306",
-	"dialect": "mysql"
+    "port": "3306",
+    "dialect": "mysql"
   },
-  "db_heroku":{
-	"host":"ec2-54-235-90-107.compute-1.amazonaws.com",
-	"name":"d2h9pe6og68eme",
-	"user":"yowaxnklbueegs",
-	"password":"e1b18dab5a88e575e2e1071e608918856bc364a3895f3530bceb4b19de6856ce",
-	"port":"5432",
-	"dialect":"postgres"
+  "db_heroku": {
+    "host": "ec2-54-235-90-107.compute-1.amazonaws.com",
+    "name": "d2h9pe6og68eme",
+    "user": "yowaxnklbueegs",
+    "password": "e1b18dab5a88e575e2e1071e608918856bc364a3895f3530bceb4b19de6856ce",
+    "port": "5432",
+    "dialect": "postgres"
   },
   "env": "dev",
   "cookie": {
