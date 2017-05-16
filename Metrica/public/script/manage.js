@@ -1,18 +1,21 @@
-let user = "";
 function getlogin() {
-    $.ajax({
-        url: "http://" + window.location.host.toString() + "/api/auth/getlogin",
-        type: "GET",
-        headers: {"Authorization": localStorage.getItem('x-access-token')},
-        success: (result) => {
-            if (result) {
-                user = JSON.stringify(result);
-                console.log(user);
-                $('#userLogin').text(JSON.stringify(result));
-                return result;
+    let cookieBrowser = $.cookie('x-access-token');
+    if (cookieBrowser !== undefined) {
+        $.ajax({
+            url: "http://" + window.location.host.toString() + "/api/auth/getlogin",
+            type: "GET",
+            headers: {"Authorization": localStorage.getItem('x-access-token')},
+            success: (result) => {
+                if (result) {
+                    $('#userLogin').text(JSON.stringify(result));
+                    return result;
+                }
             }
-        }
-    })
+        })
+    }
+    else {
+        window.location.href = "../login.html";
+    }
 }
 
 function logout() {
@@ -20,6 +23,7 @@ function logout() {
         url: "http://" + window.location.host.toString() + "/api/auth/logout",
         type: "GET",
         success: (result) => {
+            $.removeCookie('x-access-token');
             window.location.href = "../login.html";
         }
     })
