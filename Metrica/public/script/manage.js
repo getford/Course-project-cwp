@@ -90,7 +90,7 @@ function myGotoUrlCount(dataUrl) {
                 xhr.onload = function (e) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         let graphData = JSON.parse(xhr.responseText);
-                        new Morris.Line({
+                        new Morris.Donut({
                             element: 'bar-urls',
                             data: graphData
                         });
