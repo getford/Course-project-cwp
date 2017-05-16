@@ -4,7 +4,7 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, userRepository, errors) => {
-    return {checkURL: checkURL, infoUrls: infoUrls, sumForDay: sumForDay};
+    return {checkURL: checkURL, infoUrls: infoUrls, sumForDay: sumForDay, infoUrlsAllDate: infoUrlsAllDate};
 
     function checkURL(data) {
         let cutUrl = '';
@@ -99,15 +99,6 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                         attributes: ['url', 'count']
                     })
                         .then((resultGR) => {
-                           // console.log(resultGR);
-                            let countArr = [];
-                            resultGR.forEach((value) => {
-                                let element = [value.url, value.count];
-                                countArr.push(element);
-                            });
-                            //let tmp = JSON.stringify(countArr);
-                            // let l = tmp.substring(1, tmp.length - 1);
-                            //  console.log(l);
                             return resolve(resultGR);
                         })
                         .catch(() => reject(errors.notFound));
@@ -156,4 +147,24 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
         })
     }
 
+    function infoUrlsAllDate(data) {
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    gotourlRepository.findAll({
+                        where: {siteId: resultSR.id},
+                        attributes: ['url', 'count']
+                    })
+                        .then((resultGR) => {
+                            return resolve(resultGR);
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+
+    }
 };

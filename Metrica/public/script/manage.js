@@ -24,11 +24,12 @@ function addsite() {
         data: {"url": $("#siteurl").val()},
         headers: localStorage.getItem('x-access-token'),
         success: (result) => {
-            $('#messageAddSite').text("Сайт " + $("#siteurl").val() + " успешно добавлен.");
+            $('#').text("Сайт " + $("#siteurl").val() + " успешно добавлен.");
+            location.reload();
             return result;
         },
         error: (err) => {
-            $("#result").text(JSON.stringify(err));
+            $("#").text(JSON.stringify(err));
         }
     })
 }
@@ -42,15 +43,16 @@ function delsite() {
         data: {"url": $("#siteurl").val()},
         headers: localStorage.getItem('x-access-token'),
         success: (result) => {
-            $("#result").text(JSON.stringify(result));
+            $("#").text(JSON.stringify(result));
+            location.reload();
         },
         error: (err) => {
-            $("#result").text(JSON.stringify(err));
+            $("#").text(JSON.stringify(err));
         }
     })
+
 }
 
-/*Сайты в табцицу*/
 function mySites() {
     $.ajax({
         url: "http://localhost:3000/api/site/mysites",
@@ -75,10 +77,30 @@ function drawRow(rowData) {
     row.append($("<td id='urlClick'>" + "<span onclick=\"myGotoUrlCount('" + rowData.url + "\')\">" + rowData.url + "</span></td>"));
 }
 
-function myGotoUrlCount() {
+function myGotoUrlCount(dataUrl) {
 
+    let jsonData = JSON.stringify({
+        url: dataUrl
+    });
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.send(jsonData);
+    xhr.onload = function (e) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let graphData = JSON.parse(xhr.responseText);
+            Morris.Bar({
+                element: 'bar-example',
+                data: graphData,
+                xkey: 'url',
+                ykeys: ['count'],
+                labels: ['Count']
+            });
+            return xhr.responseText;
+        }
+    };
 }
-
 
 $(document).ready(() => {
     $("#btnaddsite").click(addsite);
@@ -87,38 +109,3 @@ $(document).ready(() => {
 $(document).ready(() => {
     $("#btndeletesite").click(delsite);
 });
-
-
-/*
-
- */
-
-/*
- function myGotoUrlCount() {
- let json = JSON.stringify({
- url: "qwe.com"
- });
-
- $.ajax({
- url: "http://localhost:3000/api/gotourl/infourls",
- type: "POST",
- dataType: "json",
- data: json,
- success: (result) => {
- console.log(JSON.stringify(result) + "\t\t\t\twdadawdawd");
- if (result) {
- let a = JSON.stringify(result);
- console.log(a + "\t\t\t\t\taaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
- Morris.Bar({
- element: 'bar-example',
- data: a,
- xkey: 'url',
- ykeys: ['count'],
- labels: ['Count']
- });
- console.log(JSON.stringify(result) + "\t\t\t\twdadawdawd");
- }
- }
- })
- }
- */

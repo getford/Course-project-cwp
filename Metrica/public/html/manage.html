@@ -1,91 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Manage page</title>
+    <meta charset="utf-8">
+    <title>AdminPanel</title>
 
-    <!-- Latest compiled and minified CSS -->
+    <link media="all" rel="stylesheet" type="text/css" href="../css/all.css"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js"></script>
-
-    <script src="../jquery-3.2.1.min.js"></script>
-    <script src="../jquery.dynatable.js"></script>
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="../jquery-3.2.1.min.js"><\/script>');</script>
+    <script type="text/javascript" src="../jquery.main.js"></script>
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="../css/ie.css"/><![endif]-->
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
     <script type="text/javascript" src="../script/manage.js"></script>
 </head>
 <body onload="getlogin(); mySites()">
-<form>
-    <legend>
-        <h1>Manage page
-            <h4>
-                Вы авторизованы как:
-                <div id="userLogin"></div>
-            </h4>
-        </h1>
-    </legend>
-</form>
+<div id="wrapper">
+    <div id="content">
+        <div class="c1">
+            <div class="controls">
+                <div class="profile-box">
+						<span class="profile">
+							<a href="#" class="section">
+								<span class="text-box">
+									Welcome
+									<strong class="name"><div id="userLogin"></div></strong>
+								</span>
+							</a>
+						</span>
+                    <a href="#" class="btn-on">On</a>
+                </div>
+            </div>
+            <div class="tabs">
+                <div id="tab-1" class="tab">
+                    <article>
+                        <div class="text-section">
+                            <h1>Site's</h1>
+                            <p>Ваши сайты</p>
+                        </div>
 
-<form>
-    <h4>Добавить / удалить сайт</h4>
-    <input type="text" id="siteurl" placeholder="site url"/>
-    <input type="button" id="btnaddsite" value="add site"/>
-    <input type="button" id="btndeletesite" value="delete site"/>
+                        <div class="alert alert-success" id="messageAddSite">
+                            <h4>Добавить / удалить сайт</h4>
+                            <input type="text" id="siteurl" placeholder="site url"/>
+                            <input type="button" id="btnaddsite" value="add site"/>
+                            <input type="button" id="btndeletesite" value="delete site"/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <h4>Ваши сайты</h4>
+                        <p id="mysitetable"></p>
+                    </article>
+                </div>
+                <div id="tab-2" class="tab">
+                    <article>
+                        <div class="text-section">
+                            <h1>URL's</h1>
+                            <p>Просмотр переходов по страницам</p>
+                        </div>
+                        <div class="alert alert-success">
+                            <h3>Укажите желаемые параметры и выберите сайт из списка</h3>
+                        </div>
+                    </article>
+                </div>
+                <div id="tab-3" class="tab">
+                    <article>
+                        <div class="text-section">
+                            <h1>Errors</h1>
+                            <p>Просмотр ошибок на ваших сайтах</p>
+                        </div>
 
-    <div class="alert alert-success" id="messageAddSite">
+                    </article>
+                </div>
+                <div id="tab-4" class="tab">
+                    <article>
+                        <div class="text-section">
+                            <h1>Click</h1>
+                            <p>Просмотр кликов по элементам</p>
+                        </div>
+
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
-
-<hr/>
-
-<form>
-    <h4>Ваши сайты</h4>
-    <table id="mysitetable" border="1">
-        <tr>
-            <th>URL</th>
-        </tr>
-    </table>
-</form>
-
-<hr/>
-
-<div id="bar-example" style="height: 250px; width: 300px"></div>
-
-<script>
-    let json = JSON.stringify({
-        url: "qwe.com"
-    });
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
-    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xhr.send(json);
-    xhr.onload = function (e) {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText + "\t\t\t\t\t\t\wadcccccccccccc");
-
-            let a = JSON.parse(xhr.responseText);
-            console.log(a + "\t\t\t\t\t\t\wadcccccc111111111111111111cccccc");
-            Morris.Bar({
-                element: 'bar-example',
-                data: a,
-                xkey: 'url',
-                ykeys: ['count'],
-                labels: ['Count']
-            });
-            return xhr.responseText;
-        }
-    };
-
-</script>
-
+    <aside id="sidebar">
+        <strong class="logo"><a href="#">lg</a></strong>
+        <ul class="tabset buttons">
+            <li class="active">
+                <a href="#tab-1" class="ico1"><span>Sites</span><em></em></a>
+                <span class="tooltip"><span>Sites</span></span>
+            </li>
+            <li>
+                <a href="#tab-2" class="ico3"><span>URL's</span><em></em></a>
+                <span class="tooltip"><span>URL's</span></span>
+            </li>
+            <li>
+                <a href="#tab-3" class="ico6"><span>Errors</span><em></em></a>
+                <span class="tooltip"><span>Errors</span></span>
+            </li>
+            <li>
+                <a href="#tab-4" class="ico7"><span>Click</span><em></em></a>
+                <span class="tooltip"><span>Click</span></span>
+            </li>
+        </ul>
+        <span class="shadow"></span>
+    </aside>
+</div>
 </body>
 </html>

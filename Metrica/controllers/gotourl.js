@@ -15,13 +15,18 @@ module.exports = (gotourlService, siteService, authService, config) => {
         gotourlService.infoUrls(req.body)
             .then((result) => {
                 res.json(result);
-                console.log(result);
             })
             .catch((err) => res.json(err));
     });
 
     router.post('/sumforday', (req, res) => {
         gotourlService.sumForDay(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
+    router.post('/infourlsalldata', (req, res) => {
+        gotourlService.infoUrlsAllDate(req.body)
             .then((result) => res.json(result))
             .catch((err) => res.json(err));
     });
