@@ -4,7 +4,13 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (gotourlRepository, siteRepository, userRepository, errors) => {
-    return {checkURL: checkURL, infoUrls: infoUrls, sumForDay: sumForDay, infoUrlsAllDate: infoUrlsAllDate};
+    return {
+        checkURL: checkURL,
+        infoUrls: infoUrls,
+        sumForDay: sumForDay,
+        infoUrlsAllDate: infoUrlsAllDate,
+        forDonutAllDate: forDonutAllDate
+    };
 
     function checkURL(data) {
         let cutUrl = '';
@@ -164,7 +170,28 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                         .catch(() => reject(errors.notFound));
                 })
                 .catch(() => reject(errors.notFound));
-        })
+        });
+    }
 
+    function forDonutAllDate(data) {
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    gotourlRepository.findAll({
+                        where: {siteId: resultSR.id},
+                        attributes: ['url', 'count']
+                    })
+                        .then((resultGR) => {
+                            let tmp = JSON.stringify(resultGR);
+                            let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
+                            return resolve(JSON.parse(res));
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
     }
 };

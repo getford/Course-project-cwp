@@ -65,12 +65,18 @@
                             <p>Просмотр переходов по страницам</p>
                         </div>
                         <div class="alert alert-success">
-                            <h3>Укажите желаемые параметры и выберите сайт из списка</h3>
+                            <h3>Укажите желаемые параметры и выберите сайт из списка.</h3>
                         </div>
-                        <div class="alert alert-primary">
-                            <p><input name="checkDate" type="radio" value="thisDate"> Сегодня</p>
-                            <p><input name="checkDate" type="radio" value="allDate"> За все время</p>
-                        </div>
+                        <form>
+                            <div class="alert alert-primary">
+                                <select name="graphType" id="graphType">
+                                    <option value="donut">На круге</option>
+                                    <option value="bar">Столбцы</option>
+                                </select>
+                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                            </div>
+                        </form>
                         <div class="alert alert-primary">
                             <h4>Ваши сайты</h4>
                             <table id="mysitetable" border="0">

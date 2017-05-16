@@ -79,47 +79,80 @@ function drawRow(rowData) {
 }
 
 function myGotoUrlCount(dataUrl) {
-    let jsonData = JSON.stringify({url: dataUrl});
-
-    if ($("#thisDate").attr('checked', 'checked')) {
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xhr.send(jsonData);
-        xhr.onload = function (e) {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let graphData = JSON.parse(xhr.responseText);
-                Morris.Bar({
-                    element: 'bar-urls',
-                    data: graphData,
-                    xkey: 'url',
-                    ykeys: ['count'],
-                    labels: ['Count']
-                });
-                return xhr.responseText;
+    switch ($("#graphType").val()) {
+        case 'donut':
+            if ($("#thisDate").attr('checked', 'checked')) {
+                let jsonData = JSON.stringify({url: dataUrl});
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutdlldate"); // async=true
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(jsonData);
+                xhr.onload = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let graphData = JSON.parse(xhr.responseText);
+                        new Morris.Line({
+                            element: 'bar-urls',
+                            data: graphData
+                        });
+                        return xhr.responseText;
+                    }
+                };
             }
-        };
-    }
-    if ($("#allDate").attr('checked', 'checked')) {
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:3000/api/gotourl/infourlsalldata"); // async=true
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xhr.send(jsonData);
-        xhr.onload = function (e) {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let graphData = JSON.parse(xhr.responseText);
-                Morris.Bar({
-                    element: 'bar-urls',
-                    data: graphData,
-                    xkey: 'url',
-                    ykeys: ['count'],
-                    labels: ['Count']
-                });
-                return xhr.responseText;
+            else {
             }
-        };
+            if ($("#allDate").attr('checked', 'checked')) {
+            }
+            else {
+            }
+            break;
+        case 'bar':
+            if ($("#thisDate").attr('checked', 'checked')) {
+                let jsonData = JSON.stringify({url: dataUrl});
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(jsonData);
+                xhr.onload = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let graphData = JSON.parse(xhr.responseText);
+                        Morris.Bar({
+                            element: 'bar-urls',
+                            data: graphData,
+                            xkey: 'url',
+                            ykeys: ['count'],
+                            labels: ['Count']
+                        });
+                        return xhr.responseText;
+                    }
+                };
+            }
+            else {
+            }
+            if ($("#allDate").attr('checked', 'checked')) {
+                let jsonData = JSON.stringify({url: dataUrl});
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:3000/api/gotourl/infourlsalldata"); // async=true
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(jsonData);
+                xhr.onload = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let graphData = JSON.parse(xhr.responseText);
+                        Morris.Bar({
+                            element: 'bar-urls',
+                            data: graphData,
+                            xkey: 'url',
+                            ykeys: ['count'],
+                            labels: ['Count']
+                        });
+                        return xhr.responseText;
+                    }
+                };
+            }
+            else {
+            }
+            break;
+        default:
+            alert("Что-то пошло не так :j");
     }
 }
 
