@@ -2,7 +2,7 @@ function getlogin() {
     $.ajax({
         url: "http://localhost:3000/api/auth/getlogin",
         type: "GET",
-        headers: { "Authorization": localStorage.getItem('x-access-token') },
+        headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
             if (result) {
                 $('#userLogin').text(result);
@@ -21,7 +21,7 @@ function addsite() {
         type: "POST",
         dataType: "json",
         crossDomain: true,
-        data: { "url": $("#siteurl").val() },
+        data: {"url": $("#siteurl").val()},
         headers: localStorage.getItem('x-access-token'),
         success: (result) => {
             $('#messageAddSite').text("Сайт " + $("#siteurl").val() + " успешно добавлен.");
@@ -39,7 +39,7 @@ function delsite() {
         type: "DELETE",
         dataType: "json",
         crossDomain: true,
-        data: { "url": $("#siteurl").val() },
+        data: {"url": $("#siteurl").val()},
         headers: localStorage.getItem('x-access-token'),
         success: (result) => {
             $("#result").text(JSON.stringify(result));
@@ -56,7 +56,7 @@ function mySites() {
         url: "http://localhost:3000/api/site/mysites",
         type: "GET",
         dataType: "json",
-        headers: { "Authorization": localStorage.getItem('x-access-token') },
+        headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (data) => {
             drawTable(data);
         }
@@ -72,7 +72,7 @@ function drawTable(data) {
 function drawRow(rowData) {
     let row = $("<tr />");
     $("#mysitetable").append(row);
-    row.append($("<td id='urlClick'>" + "<span onclick=\"graph('" + rowData.url + "\')\">" + rowData.url + "</span></td>"));
+    row.append($("<td id='urlClick'>" + "<span onclick=\"myGotoUrlCount('" + rowData.url + "\')\">" + rowData.url + "</span></td>"));
 }
 
 /*Замена символов в строке*/
@@ -80,13 +80,12 @@ String.prototype.replaceAll = function (search, replace) {
     return this.split(search).join(replace);
 }
 
-/*Число переходов по страницам*/
 let text = '';
 
-function myGotoUrlCount(data) {
-    let json = JSON.stringify({ url: data });
-
-    console.log(json + "\t\t\t json");
+function myGotoUrlCount() {
+    let json = JSON.stringify({
+        url: "qwe.com"
+    });
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
@@ -96,36 +95,39 @@ function myGotoUrlCount(data) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(xhr.responseText);
             text = xhr.responseText.toString();
-            console.log(text + "\t\ttext");
-            // return xhr.responseText;
+            console.log(text + "\ttext");
+            return xhr.responseText;
         }
     };
-    return text;
 }
 
 /*Графики число переходов по дням*/
-function graph(inputText) {
-    console.log(inputText + '\t\t\t input text');
+function graph() {
+    myGotoUrlCount();
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawChart);
     function drawChart() {
-        myGotoUrlCount(inputText);
-        console.log(text + "\t\t\t\t text in praph");
-        let l = text.substring(1, text.length - 1);
-        let q = l.replaceAll('\\', '');
-        console.log(text + "\t\t\t\t\tawDcawbidiawucoiawcw");
-        console.log(q + "\t\t\t\tdjchawbjcawb78bc2y873282n");
+        // let l = text.substring(1, text.length - 1);
+        // let q = l.replaceAll('\\', '');
+        // console.log(text + "\t\t\t\t\tawDcawbidiawucoiawcw");
+        // console.log(q + "\t\t\t\tdjchawbjcawb78bc2y873282n");
+        // console.log(q);
+        //
+        // let arr = [];
+        // arr = q;
+
+       // console.log(arr + "\t\t\t arr");
+        let chart = new google.visualization.ColumnChart(document.getElementById('oil'));
         let data = google.visualization.arrayToDataTable([
             ['url', 'count'],
-            ["/AWD", 6], ["/qqq", 3], ["/q", 15], ["/q", 15], ["/qwcd", 2], ["/qwc324432cd", 3]
-            //q
+            ["/AWD", 6], ["/qqq", 3], ["/qqq", 25], ["/q", 15], ["/qwcd", 2], ["/qwc324432cd", 3]
         ]);
+
         let options = {
             title: 'Статистика переходов за день',
             hAxis: { title: 'URL' },
             vAxis: { title: 'Число переходов' }
         };
-        let chart = new google.visualization.ColumnChart(document.getElementById('oil'));
         chart.draw(data, options);
     }
 }
@@ -138,11 +140,11 @@ $(document).ready(() => {
     $("#btndeletesite").click(delsite);
 });
 
-$(document).ready(() => {
-    $("#urlClick").click(graph);
-});
+// $(document).ready(() => {
+//     $("#urlClick").click(myGotoUrlCount);
+// });
 
-//$("#oil").load(graph());
+$("#oil").load(graph());
 
 /*
  function myGotoUrlCount(data) {
