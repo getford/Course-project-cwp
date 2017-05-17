@@ -1,10 +1,10 @@
 "use strict";
 const express = require('express');
-//const config = require('../config');
+const config = require('../config');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-module.exports = (gotourlService, siteService, authService, config) => {
+module.exports = (gotourlService, siteService, authService) => {
 
     router.post('/checkurl', (req, res) => {
         gotourlService.checkURL(req.body)

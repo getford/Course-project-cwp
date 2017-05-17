@@ -75,8 +75,9 @@ module.exports = (siteRepository, gotourlRepository, errors) => {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.tokenKey, (err, decode) => {
                 if (err) {
-                    reject(errors.unauthorized);
+                    reject(err);
                 } else {
+                    console.log(decode.__user_id);
                     siteRepository.findAll({
                         where: {authId: decode.__user_id},
                         attributes: ['url']

@@ -202,7 +202,7 @@ module.exports = (errorRepository, siteRepository, userRepository, errors) => {
                 else {
                     siteRepository.findOne({
                         where: {url: data.url},
-                        attributes: ['id']
+                        attributes: ['id', 'authId']
                     })
                         .then((resultSR) => {
                             if (resultSR.authId === decode.__user_id) {

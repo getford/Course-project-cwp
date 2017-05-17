@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Promise = require("bluebird");
+const config = require('../config');
 
 let date = new Date();
 
@@ -8,9 +9,9 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
         catchClicks: catchClicks,
         sumForDayClick: sumForDayClick,
         getClicksAllDate: getClicksAllDate,
-        getClicksThisDay:getClicksThisDay,
-        getClicksDonutAllDate:getClicksDonutAllDate,
-        getClicksDonutThisDate:getClicksDonutThisDate
+        getClicksThisDay: getClicksThisDay,
+        getClicksDonutAllDate: getClicksDonutAllDate,
+        getClicksDonutThisDate: getClicksDonutThisDate
     };
 
     function catchClicks(data) {
@@ -120,93 +121,137 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
         })
     }
 
-    function getClicksAllDate(data) {
+    function getClicksAllDate(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    clickRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['element', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultCR) => {
-                            resolve(resultCR);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                clickRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['element', 'count']
+                                })
+                                    .then((resultCR) => {
+                                        resolve(resultCR);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getClicksThisDay(data) {
+    function getClicksThisDay(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    clickRepository.findAll({
-                        where: {siteId: resultSR.id,  date: dateNow},
-                        attributes: ['element', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultCR) => {
-                            resolve(resultCR);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                clickRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['element', 'count']
+                                })
+                                    .then((resultCR) => {
+                                        resolve(resultCR);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getClicksDonutAllDate(data) {
+    function getClicksDonutAllDate(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    clickRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['element', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultCR) => {
-                            let tmp = JSON.stringify(resultCR);
-                            let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                clickRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['element', 'count']
+                                })
+                                    .then((resultCR) => {
+                                        let tmp = JSON.stringify(resultCR);
+                                        let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getClicksDonutThisDate(data) {
+    function getClicksDonutThisDate(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    clickRepository.findAll({
-                        where: {siteId: resultSR.id, date: dateNow},
-                        attributes: ['element', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultCR) => {
-                            let tmp = JSON.stringify(resultCR);
-                            let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                clickRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['element', 'count']
+                                })
+                                    .then((resultCR) => {
+                                        let tmp = JSON.stringify(resultCR);
+                                        let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 };
