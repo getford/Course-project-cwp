@@ -73,7 +73,10 @@ function drawRow(rowData) {
     let row = $("<tr />");
     $("#mysitetable").append(row);
     row.append($("<td id='urlClick'>" + "<span onclick=\"myGotoUrlCount('" + rowData.url + "\');" +
-        "graphClicks('" + rowData.url + "\')\">" + rowData.url + "</span></td>"));
+        "graphClicks('" + rowData.url + "\');" +
+        "graphErrors('" + rowData.url + "\')\">" + rowData.url + "</span></td>"
+    ))
+    ;
 }
 
 function myGotoUrlCount(dataUrl) {
@@ -163,19 +166,20 @@ function myGotoUrlCount(dataUrl) {
 }
 
 function graphErrors(dataUrl) {
+    $("#bar-errors").html("");
     switch ($("#graphTypeErrors").val()) {
         case 'donut':
             if ($("#thisDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutthisdata"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/error/gedountthisdata"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         let graphData = JSON.parse(xhr.responseText);
                         new Morris.Donut({
-                            element: 'bar-urls',
+                            element: 'bar-errors',
                             data: graphData
                         });
                         return xhr.responseText;
@@ -185,14 +189,14 @@ function graphErrors(dataUrl) {
             if ($("#allDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutalldate"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/error/gedountalldata"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         let graphData = JSON.parse(xhr.responseText);
                         new Morris.Donut({
-                            element: 'bar-urls',
+                            element: 'bar-errors',
                             data: graphData
                         });
                         return xhr.responseText;
@@ -204,16 +208,16 @@ function graphErrors(dataUrl) {
             if ($("#thisDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/error/gethisdata"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         let graphData = JSON.parse(xhr.responseText);
                         Morris.Bar({
-                            element: 'bar-urls',
+                            element: 'bar-errors',
                             data: graphData,
-                            xkey: 'url',
+                            xkey: 'number',
                             ykeys: ['count'],
                             labels: ['Count']
                         });
@@ -224,16 +228,16 @@ function graphErrors(dataUrl) {
             if ($("#allDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:3000/api/gotourl/infourlsalldata"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/error/gealldata"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         let graphData = JSON.parse(xhr.responseText);
                         Morris.Bar({
-                            element: 'bar-urls',
+                            element: 'bar-errors',
                             data: graphData,
-                            xkey: 'url',
+                            xkey: 'number',
                             ykeys: ['count'],
                             labels: ['Count']
                         });
