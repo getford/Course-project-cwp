@@ -1,3 +1,39 @@
-html{
-    background-image: url("../images/index_bg.jpg");
+html {
+    background: url(../images/TebPWZ6.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#index-form{
+    background-color: #363636;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 150px auto;
+    width: 300px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    -webkit-box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+}
+
+#index-form fieldset {
+    border: none;
+    padding: 20px;
+    position: relative;
+}
+
+#index-form h1 {
+    background-color: #292829;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }

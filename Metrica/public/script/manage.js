@@ -347,8 +347,20 @@ function toPDF() {
 
     let doc = new jsPDF();
 
-    doc.text("DO THIS!!!!!!!!!!!!!!!!!11111", 100, 100);
-    doc.save("Report_" + dateNow + '.pdf');
+    let takeImageUrl = document.getElementById("bar-urls");
+    let takeImageError = document.getElementById("bar-errors");
+    let takeImageClick = document.getElementById("bar-clicks");
+
+    domtoimage.toPng(takeImageUrl)
+        .then((dataUrl) => {
+            let img = new Image();
+            img.src = dataUrl;
+
+
+            doc.addImage(dataUrl, 'PNG', 10, 10, 60, 65);
+            doc.text("DO THIS!!!!!!!!!!!!!!!!!11111", 100, 100);
+            doc.save("Report_" + dateNow + '.pdf');
+        });
 }
 
 $(document).ready(() => {
