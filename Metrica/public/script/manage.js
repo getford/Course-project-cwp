@@ -248,14 +248,13 @@ function graphErrors(dataUrl) {
 }
 
 function graphClicks(dataUrl) {
-    console.log("awawdljdca");
     $("#bar-clicks").html("");
     switch ($("#graphTypeClicks").val()) {
         case 'donut':
             if ($("#thisDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://" + window.location.host.toString() + "/api/gotourl/fordonutthisdata"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/click/getclicksdonutthisday"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
@@ -272,7 +271,7 @@ function graphClicks(dataUrl) {
             if ($("#allDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://" + window.location.host.toString() + "/api/gotourl/fordonutalldate"); // async=true
+                xhr.open("POST", "http://" + window.location.host.toString() + "/api/click/getclickdonutsalldate"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
