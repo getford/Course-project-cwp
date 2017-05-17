@@ -352,21 +352,51 @@ function toPDF() {
     let takeImageError = document.getElementById("bar-errors");
     let takeImageClick = document.getElementById("bar-clicks");
 
+    let imgUrl = new Image();
+    let imgError = new Image();
+    let imgClick = new Image();
+
     domtoimage.toPng(takeImageUrl)
         .then((dataUrl) => {
-            let img = new Image();
-            img.src = dataUrl;
+            imgUrl = new Image();
+            imgUrl.src = dataUrl;
 
-            doc.text("Report Metrica API", 69, 10);
-            doc.text("User: " + user, 9, 17);
-            doc.text("Data: " + dateNow, 9, 25);
+            domtoimage.toPng(takeImageError)
+                .then((dataUrl) => {
+                    imgError = new Image();
+                    imgError.src = dataUrl;
 
-            doc.text("URL's", 9, 40);
-            doc.addImage(dataUrl, 'PNG', 9, 50, 50, 70);
-            doc.text("All data", 60, 65);
-            doc.text("This data: " + dateNow, 60, 100);
-            doc.save("Report_" + dateNow + '.pdf');
+                    domtoimage.toPng(takeImageClick)
+                        .then((dataUrl) => {
+                            imgClick = new Image();
+                            imgClick.src = dataUrl;
+
+                            doc.text("Report Metrica API", 69, 10);
+                            doc.text("User: " + user, 9, 17);
+                            doc.text("Data: " + dateNow, 9, 25);
+
+                            doc.text("All data", 60, 65);
+                            doc.text("This data: " + dateNow, 60, 100);
+                            doc.text("URL's", 9, 40);
+                            doc.addImage(imgUrl, 'PNG', 9, 50, 50, 70);
+
+                            doc.text("All data", 60, 150);
+                            doc.text("This data: " + dateNow, 60, 185);
+                            doc.text("Error's", 9, 125);
+                            doc.addImage(imgError, 'PNG', 9, 130, 50, 70);
+
+                            doc.text("All data", 60, 225);
+                            doc.text("This data: " + dateNow, 60, 269);
+                            doc.text("Click's", 9, 205);
+                            doc.addImage(imgClick, 'PNG', 9, 210, 50, 70);
+
+                            doc.text("All data", 60, 65);
+                            doc.text("This data: " + dateNow, 60, 100);
+                            doc.save("Report_" + dateNow + '.pdf');
+                        });
+                });
         });
+
 }
 
 $(document).ready(() => {
