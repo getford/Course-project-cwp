@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Promise = require("bluebird");
+const config = require('../config');
 
 let date = new Date();
 
@@ -92,93 +93,137 @@ module.exports = (errorRepository, siteRepository, userRepository, errors) => {
         })
     }
 
-    function getErrorsThisData(data) {
+    function getErrorsThisData(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    errorRepository.findAll({
-                        where: {siteId: resultSR.id, date: dateNow},
-                        attributes: ['number', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultER) => {
-                            return resolve(resultER);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                errorRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['number', 'count']
+                                })
+                                    .then((resultER) => {
+                                        return resolve(resultER);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getErrorsAllData(data) {
+    function getErrorsAllData(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    errorRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['number', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultER) => {
-                            return resolve(resultER);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                errorRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['number', 'count']
+                                })
+                                    .then((resultER) => {
+                                        return resolve(resultER);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getErrorsDonutThisData(data) {
+    function getErrorsDonutThisData(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    errorRepository.findAll({
-                        where: {siteId: resultSR.id, date: dateNow},
-                        attributes: ['number', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultER) => {
-                            let tmp = JSON.stringify(resultER);
-                            let res = tmp.replace(/number/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                errorRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['number', 'count']
+                                })
+                                    .then((resultER) => {
+                                        let tmp = JSON.stringify(resultER);
+                                        let res = tmp.replace(/number/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function getErrorsDonutAllData(data) {
+    function getErrorsDonutAllData(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    errorRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['number', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id']
                     })
-                        .then((resultER) => {
-                            let tmp = JSON.stringify(resultER);
-                            let res = tmp.replace(/number/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                errorRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['number', 'count']
+                                })
+                                    .then((resultER) => {
+                                        let tmp = JSON.stringify(resultER);
+                                        let res = tmp.replace(/number/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 

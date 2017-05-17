@@ -101,7 +101,6 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                 if (err)
                     return reject(err);
                 else {
-                    console.log(decode.__user_id);
                     siteRepository.findOne({
                         where: {url: data.url},
                         attributes: ['id', 'authId']

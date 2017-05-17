@@ -11,7 +11,6 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
                 let token = jwt.sign({
                     __user_id: data.id,
                     __user_login: req.body.login,
-                    __user_key: data.key
                 }, config.tokenKey);
                 res.cookie('x-access-token', token);
                 res.json({ success: "login success" });
