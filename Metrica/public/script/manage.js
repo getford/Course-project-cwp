@@ -1,12 +1,13 @@
+let user = "";
 function getlogin() {
-    console.log(window.location.host.toString());
     $.ajax({
         url: "http://" + window.location.host.toString() + "/api/auth/getlogin",
         type: "GET",
         headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
             if (result) {
-                $('#userLogin').text(result);
+                user = JSON.stringify(result);
+                $('#userLogin').text(JSON.stringify(result));
                 return result;
             }
         }
@@ -356,9 +357,14 @@ function toPDF() {
             let img = new Image();
             img.src = dataUrl;
 
+            doc.text("Report Metrica API", 69, 10);
+            doc.text("User: " + user, 9, 17);
+            doc.text("Data: " + dateNow, 9, 25);
 
-            doc.addImage(dataUrl, 'PNG', 10, 10, 60, 65);
-            doc.text("adwawdawdawd", 100, 100);
+            doc.text("URL's", 9, 40);
+            doc.addImage(dataUrl, 'PNG', 9, 50, 50, 70);
+            doc.text("All data", 60, 65);
+            doc.text("This data: " + dateNow, 60, 100);
             doc.save("Report_" + dateNow + '.pdf');
         });
 }
