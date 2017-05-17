@@ -11,11 +11,24 @@ module.exports = (clickService, siteService, authService, config) => {
             .catch((err) => res.json(err));
     });
 
-        router.post('/sumfordayclick', (req, res) => {
+    router.post('/sumfordayclick', (req, res) => {
         clickService.sumForDayClick(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
+    router.post('/getclicksalldate', (req, res) => {
+        clickService.getClicksAllDate(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
+    router.post('/getclicksthisday', (req, res) => {
+        clickService.getClicksThisDay(req.body)
             .then((result) => res.json(result))
             .catch((err) => res.json(err));
     });
 
     return router;
 };
+

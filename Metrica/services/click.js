@@ -4,7 +4,12 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (clickRepository, siteRepository, userRepository, errors) => {
-    return { catchClicks: catchClicks, sumForDayClick: sumForDayClick };
+    return {
+        catchClicks: catchClicks,
+        sumForDayClick: sumForDayClick,
+        getClicksAllDate: getClicksAllDate,
+        getClicksThisDay:getClicksThisDay
+    };
 
     function catchClicks(data) {
         let newClick = {};
@@ -13,25 +18,25 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
             userRepository.findOne({
-                where: { key: data.key },
+                where: {key: data.key},
                 attributes: ['id', 'key']
             })
                 .then((resultUR) => {
                     if (resultUR.key === data.key) {
                         siteRepository.findOne({
-                            where: { url: data.url, authId: resultUR.id },
+                            where: {url: data.url, authId: resultUR.id},
                             attributes: ['id', 'authId']
                         })
                             .then((resultSR) => {
                                 clickRepository.findOne({
-                                    where: { siteId: resultSR.id, date: dateNow, element: data.element },
+                                    where: {siteId: resultSR.id, date: dateNow, element: data.element},
                                     attributes: ['element', 'count', 'date', 'siteId']
                                 })
                                     .then((resultCR) => {
                                         if (resultCR.element === data.element
                                             && resultCR.date === dateNow) {
                                             let tmpCount = resultCR.count + 1;
-                                            clickRepository.update({ count: tmpCount }, {
+                                            clickRepository.update({count: tmpCount}, {
                                                 where: {
                                                     element: data.element,
                                                     date: dateNow
@@ -47,10 +52,10 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                                                 siteId: resultSR.id
                                             };
                                             Promise.all([clickRepository.create(newClick)])
-                                                .then(() => resolve({ success: "ok, success" }))
-                                                .catch(() => reject({ error: "New click wasn't add" }));
+                                                .then(() => resolve({success: "ok, success"}))
+                                                .catch(() => reject({error: "New click wasn't add"}));
                                         }
-                                        resolve({ success: true });
+                                        resolve({success: true});
                                     })
                                     .catch(() => {
                                         newClick = {
@@ -60,8 +65,8 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                                             siteId: resultSR.id
                                         };
                                         Promise.all([clickRepository.create(newClick)])
-                                            .then(() => resolve({ success: "ok, success" }))
-                                            .catch(() => reject({ error: "New click wasn't add" }));
+                                            .then(() => resolve({success: "ok, success"}))
+                                            .catch(() => reject({error: "New click wasn't add"}));
                                     });
 
                             })
@@ -81,12 +86,12 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
             siteRepository.findOne({
-                where: { url: data.url },
+                where: {url: data.url},
                 attributes: ['id']
             })
                 .then((resultSR) => {
                     clickRepository.findAll({
-                        where: { siteId: resultSR.id, date: dateNow },
+                        where: {siteId: resultSR.id, date: dateNow},
                         attributes: ['count', 'date']
                     })
                         .then((resultCR) => {
@@ -106,6 +111,49 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                             };
 
                             resolve(resJson);
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function getClicksAllDate(data) {
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    clickRepository.findAll({
+                        where: {siteId: resultSR.id},
+                        attributes: ['element', 'count']
+                    })
+                        .then((resultCR) => {
+                            resolve(resultCR);
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function getClicksThisDay(data) {
+        let dateNow = date.getDate() +
+            "." + (date.getMonth() + 1) +
+            "." + date.getFullYear();
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    clickRepository.findAll({
+                        where: {siteId: resultSR.id,  date: dateNow},
+                        attributes: ['element', 'count']
+                    })
+                        .then((resultCR) => {
+                            resolve(resultCR);
                         })
                         .catch(() => reject(errors.notFound));
                 })

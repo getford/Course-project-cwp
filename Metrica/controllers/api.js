@@ -13,6 +13,7 @@ module.exports = (authService, siteService, errorService, gotourlService, clickS
     router.use('/site', siteController);
     router.use('/gotourl', gotourlController);
     router.use('/click', clickController);
+    router.use('/error', errorController);
 
     return router;
 };

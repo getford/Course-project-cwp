@@ -95,7 +95,21 @@
                             <h1>Errors</h1>
                             <p>Просмотр ошибок на ваших сайтах</p>
                         </div>
-
+                        <div class="alert alert-success">
+                            <h3>Укажите желаемые параметры и выберите сайт из списка.</h3>
+                            <span><input id="topdferror" value="Сохранить в отчет" type="button"></span>
+                        </div>
+                        <form>
+                            <div class="alert alert-primary">
+                                <select name="graphType" id="graphTypeErrors">
+                                    <option value="donut">На круге</option>
+                                    <option value="bar">Столбцы</option>
+                                </select>
+                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                            </div>
+                        </form>
+                        <div id="bar-errors" style="height: 250px; width: 300px"></div>
                     </article>
                 </div>
                 <div id="tab-4" class="tab">
@@ -104,7 +118,21 @@
                             <h1>Click</h1>
                             <p>Просмотр кликов по элементам</p>
                         </div>
-
+                        <div class="alert alert-success">
+                            <h3>Укажите желаемые параметры и выберите сайт из списка.</h3>
+                            <span><input id="topdfclicks" value="Сохранить в отчет" type="button"></span>
+                        </div>
+                        <form>
+                            <div class="alert alert-primary">
+                                <select name="graphType" id="graphTypeClicks">
+                                    <option value="donut">На круге</option>
+                                    <option value="bar">Столбцы</option>
+                                </select>
+                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                            </div>
+                        </form>
+                        <div id="bar-clicks" style="height: 250px; width: 300px"></div>
                     </article>
                 </div>
             </div>

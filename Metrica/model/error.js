@@ -7,7 +7,7 @@ module.exports = (Sequelize, sequelize) => {
         },
         number: Sequelize.INTEGER,
         url: Sequelize.STRING,
-        text: Sequelize.STRING,
-        count: Sequelize.INTEGER
+        count: Sequelize.INTEGER,
+        date: Sequelize.STRING
     });
 };

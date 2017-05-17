@@ -4,37 +4,45 @@ const Promise = require("bluebird");
 let date = new Date();
 
 module.exports = (errorRepository, siteRepository, errors) => {
-    return { catchErrors: catchErrors };
+    return {catchErrors: catchErrors};
 
     function catchErrors(data) {
         return new Promise((resolve, reject) => {
             userRepository.findOne({
-                where: { key: data.key },
+                where: {key: data.key},
                 attributes: ['id', 'key']
             })
                 .then((resultUR) => {
                     if (resultUR.key === data.key) {
                         siteRepository.findOne({
-                            where: { url: data.url, authId: resultUR.id },
-                            attributes: ['id', 'authId']
+                            where: {url: data.url, authId: resultUR.id},
+                            attributes: ['id', 'url', 'authId']
                         })
                             .then((resultSR) => {
-                                if (resultSR.authId === resultUR.id) {
+                                if (resultSR.authId === resultUR.id && resultSR.url === data.url) {
                                     errorRepository.findOne({
-                                        where: {},
-                                        attributes: []
+                                        where: {siteId: resultSR.id},
+                                        attributes: ['number', 'url', 'count', 'date']
                                     })
-                                        .then(() => { })
-                                        .catch(() => { })
+                                        .then((resultER) => {
+                                            resolve(resultER);
+                                        })
+                                        .catch(() => {
+                                            reject();
+                                        })
                                 }
                                 else {
 
                                 }
                             })
-                            .catch(() => { reject(errors.notFound); });
+                            .catch(() => {
+                                reject(errors.notFound);
+                            });
                     }
                 })
-                .catch(() => { reject(errors.notFound); });
+                .catch(() => {
+                    reject(errors.notFound);
+                });
         })
     }
 };
