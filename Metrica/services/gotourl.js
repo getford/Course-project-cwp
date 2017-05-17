@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Promise = require("bluebird");
+const config = require('../config');
 
 let date = new Date();
 
@@ -91,26 +92,38 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
         });
     }
 
-    function infoUrls(data) {
+    function infoUrls(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    gotourlRepository.findAll({
-                        where: {siteId: resultSR.id, date: dateNow},
-                        attributes: ['url', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    console.log(decode.__user_id);
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultGR) => {
-                            return resolve(resultGR);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                gotourlRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['url', 'count']
+                                })
+                                    .then((resultGR) => {
+                                        return resolve(resultGR);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
@@ -154,70 +167,105 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
         })
     }
 
-    function infoUrlsAllDate(data) {
+    function infoUrlsAllDate(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    gotourlRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['url', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultGR) => {
-                            return resolve(resultGR);
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                gotourlRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['url', 'count']
+                                })
+                                    .then((resultGR) => {
+                                        return resolve(resultGR);
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         });
     }
 
-    function forDonutAllDate(data) {
+    function forDonutAllDate(data, token) {
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    gotourlRepository.findAll({
-                        where: {siteId: resultSR.id},
-                        attributes: ['url', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultGR) => {
-                            let tmp = JSON.stringify(resultGR);
-                            let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                gotourlRepository.findAll({
+                                    where: {siteId: resultSR.id},
+                                    attributes: ['url', 'count']
+                                })
+                                    .then((resultGR) => {
+                                        let tmp = JSON.stringify(resultGR);
+                                        let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
+
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+            })
         })
     }
 
-    function forDonutThisData(data) {
+    function forDonutThisData(data, token) {
         let dateNow = date.getDate() +
             "." + (date.getMonth() + 1) +
             "." + date.getFullYear();
         return new Promise((resolve, reject) => {
-            siteRepository.findOne({
-                where: {url: data.url},
-                attributes: ['id']
-            })
-                .then((resultSR) => {
-                    gotourlRepository.findAll({
-                        where: {siteId: resultSR.id, date: dateNow},
-                        attributes: ['url', 'count']
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    siteRepository.findOne({
+                        where: {url: data.url},
+                        attributes: ['id', 'authId']
                     })
-                        .then((resultGR) => {
-                            let tmp = JSON.stringify(resultGR);
-                            let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
-                            return resolve(JSON.parse(res));
+                        .then((resultSR) => {
+                            if (resultSR.authId === decode.__user_id) {
+                                gotourlRepository.findAll({
+                                    where: {siteId: resultSR.id, date: dateNow},
+                                    attributes: ['url', 'count']
+                                })
+                                    .then((resultGR) => {
+                                        let tmp = JSON.stringify(resultGR);
+                                        let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
+                                        return resolve(JSON.parse(res));
+                                    })
+                                    .catch(() => reject(errors.notFound));
+                            }
+                            else {
+                                reject(errors.unauthorized);
+                            }
                         })
                         .catch(() => reject(errors.notFound));
-                })
-                .catch(() => reject(errors.notFound));
+                }
+
+            })
         })
     }
 };

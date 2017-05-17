@@ -79,6 +79,7 @@ function drawRow(rowData) {
     ;
 }
 
+/* Графики */
 function myGotoUrlCount(dataUrl) {
     $("#bar-urls").html("");
     switch ($("#graphType").val()) {

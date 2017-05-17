@@ -4,17 +4,18 @@ function register() {
         "password": $("#password").val()
     };
     $.ajax({
-        url: "http://localhost:3000/api/auth/register",
+        url: "http://" + window.location.host.toString() + "/api/auth/register",
         type: "POST",
-        async: true,
+       // async: true,
         dataType: "json",
-        crossDomain: true,
+       // crossDomain: true,
         data: reg,
         success: (result) => {
-            $("#result").text(JSON.stringify(result));
+            window.location.href = ".../public/html/login.html";
+            alert(JSON.stringify(result));
         },
         error: (err) => {
-            $("#result").text(JSON.stringify(err));
+            alert(JSON.stringify(err));
         }
     });
 }

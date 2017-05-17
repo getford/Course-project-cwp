@@ -3,15 +3,14 @@ function login() {
         "login": $("#login").val(),
         "password": $("#password").val()
     };
+    console.log(JSON.stringify(lgn));
     $.ajax({
-        url: "http://localhost:3000/api/auth/login",
+        url: "http://" + window.location.host.toString() + "/api/auth/login",
         type: "POST",
         data: lgn,
-      //  headers: {"Authorization": localStorage.getItem('x-access-token')},
+        //  headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
-            alert(JSON.stringify(result));
             if (result) {
-                //$("#result").text(JSON.stringify(result));
                 window.location.href = "../manage.html";
             }
         },
@@ -21,6 +20,4 @@ function login() {
     })
 }
 
-$(document).ready(() => {
-    $("#btnlgn").click(login);
-});
+$("#btnlgn").click(login);

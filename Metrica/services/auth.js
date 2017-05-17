@@ -66,6 +66,10 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
         });
     }
 
+    function resetPasscode(data){
+
+    }
+
     function accinfo(config, token) {
         return new Promise((resolve, reject) => {
             jwt.verify(token, config.tokenKey, (err, decode) => {
