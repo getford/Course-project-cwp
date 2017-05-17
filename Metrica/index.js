@@ -16,13 +16,11 @@ const siteService = require('./services/site')(db.site, db.gotourl, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, db.auth, errors);
 const errorService = require('./services/error')(db.error, errors);
 const clickService = require('./services/click')(db.click, db.site, db.auth, errors);
-const cacheService = require('./services/cache');
 
 const apiController = require('./controllers/api')(authService, siteService,
-    errorService, gotourlService, clickService, cacheService, config);
+    errorService, gotourlService, clickService, config);
 
 const auth = require('./utils/auth')(authService, config, errors);
-const cache = require('./utils/cache')(cacheService);
 
 const app = express();
 
@@ -35,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', logger);
 app.use('/api', auth);
-app.use('/api', cache);
 app.use('/api', apiController);
 
 app.get('/', (req, res) => {
