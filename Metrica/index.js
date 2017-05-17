@@ -14,7 +14,7 @@ const db = require('./context/db')(Sequelize, config);
 const authService = require('./services/auth')(db.auth, db.site, db.gotourl, errors);
 const siteService = require('./services/site')(db.site, db.gotourl, errors);
 const gotourlService = require('./services/gotourl')(db.gotourl, db.site, db.auth, errors);
-const errorService = require('./services/error')(db.error, errors);
+const errorService = require('./services/error')(db.error, db.site, db.auth, errors);
 const clickService = require('./services/click')(db.click, db.site, db.auth, errors);
 
 const apiController = require('./controllers/api')(authService, siteService,
@@ -29,7 +29,7 @@ let date = new Date();
 app.use(express.static('public'));
 app.use(cookieParser(config.cookie.key));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', logger);
 app.use('/api', auth);

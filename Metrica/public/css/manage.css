@@ -1,0 +1,5 @@
+#urlClick:hover {
+    color: #800000; /* Цвет ссылки при наведении на нее курсора мыши */
+    text-decoration: underline; /* Добавляем подчеркивание */
+    cursor: pointer;
+}

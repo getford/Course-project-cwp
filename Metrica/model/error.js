@@ -5,8 +5,8 @@ module.exports = (Sequelize, sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        number: Sequelize.INTEGER,
         url: Sequelize.STRING,
+        number: Sequelize.INTEGER,
         count: Sequelize.INTEGER,
         date: Sequelize.STRING
     });
