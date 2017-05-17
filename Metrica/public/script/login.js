@@ -5,7 +5,7 @@ function login() {
     };
     console.log(JSON.stringify(lgn));
     $.ajax({
-        url: "http://" + window.location.host.toString() + "/api/auth/login",
+        url: "http://localhost:3000/api/auth/login",
         type: "POST",
         data: lgn,
         //  headers: {"Authorization": localStorage.getItem('x-access-token')},
