@@ -9,7 +9,8 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
         infoUrls: infoUrls,
         sumForDay: sumForDay,
         infoUrlsAllDate: infoUrlsAllDate,
-        forDonutAllDate: forDonutAllDate
+        forDonutAllDate: forDonutAllDate,
+        forDonutThisData: forDonutThisData
     };
 
     function checkURL(data) {
@@ -182,6 +183,31 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                 .then((resultSR) => {
                     gotourlRepository.findAll({
                         where: {siteId: resultSR.id},
+                        attributes: ['url', 'count']
+                    })
+                        .then((resultGR) => {
+                            let tmp = JSON.stringify(resultGR);
+                            let res = tmp.replace(/url/gi, 'label').replace(/count/gi, 'value');
+                            return resolve(JSON.parse(res));
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function forDonutThisData(data) {
+        let dateNow = date.getDate() +
+            "." + (date.getMonth() + 1) +
+            "." + date.getFullYear();
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    gotourlRepository.findAll({
+                        where: {siteId: resultSR.id, date: dateNow},
                         attributes: ['url', 'count']
                     })
                         .then((resultGR) => {

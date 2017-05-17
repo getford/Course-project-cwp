@@ -31,8 +31,14 @@ module.exports = (gotourlService, siteService, authService, config) => {
             .catch((err) => res.json(err));
     });
 
-    router.post('/fordonutdlldate', (req, res) => {
+    router.post('/fordonutalldate', (req, res) => {
         gotourlService.forDonutAllDate(req.body)
+            .then((result) => res.json(result))
+            .catch((err) => res.json(err));
+    });
+
+    router.post('/fordonutthisdata', (req, res) => {
+        gotourlService.forDonutThisData(req.body)
             .then((result) => res.json(result))
             .catch((err) => res.json(err));
     });

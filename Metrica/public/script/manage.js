@@ -8,9 +8,6 @@ function getlogin() {
                 $('#userLogin').text(result);
                 return result;
             }
-        },
-        error: (err) => {
-            return err;
         }
     })
 }
@@ -75,16 +72,16 @@ function drawRow(rowData) {
     let row = $("<tr />");
     $("#mysitetable").append(row);
     row.append($("<td id='urlClick'>" + "<span onclick=\"myGotoUrlCount('" + rowData.url + "\')\">" + rowData.url + "</span></td>"));
-
 }
 
 function myGotoUrlCount(dataUrl) {
+    $("#bar-urls").html("");
     switch ($("#graphType").val()) {
         case 'donut':
-            if ($("#thisDate").attr('checked', 'checked')) {
+            if ($("#thisDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutdlldate"); // async=true
+                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutthisdata"); // async=true
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(jsonData);
                 xhr.onload = function (e) {
@@ -98,15 +95,26 @@ function myGotoUrlCount(dataUrl) {
                     }
                 };
             }
-            else {
-            }
-            if ($("#allDate").attr('checked', 'checked')) {
-            }
-            else {
+            if ($("#allDate").prop("checked", true)) {
+                let jsonData = JSON.stringify({url: dataUrl});
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://localhost:3000/api/gotourl/fordonutalldate"); // async=true
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(jsonData);
+                xhr.onload = function (e) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        let graphData = JSON.parse(xhr.responseText);
+                        new Morris.Donut({
+                            element: 'bar-urls',
+                            data: graphData
+                        });
+                        return xhr.responseText;
+                    }
+                };
             }
             break;
         case 'bar':
-            if ($("#thisDate").attr('checked', 'checked')) {
+            if ($("#thisDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
                 xhr.open("POST", "http://localhost:3000/api/gotourl/infourls"); // async=true
@@ -126,9 +134,7 @@ function myGotoUrlCount(dataUrl) {
                     }
                 };
             }
-            else {
-            }
-            if ($("#allDate").attr('checked', 'checked')) {
+            if ($("#allDate").prop("checked", true)) {
                 let jsonData = JSON.stringify({url: dataUrl});
                 let xhr = new XMLHttpRequest();
                 xhr.open("POST", "http://localhost:3000/api/gotourl/infourlsalldata"); // async=true
@@ -148,12 +154,22 @@ function myGotoUrlCount(dataUrl) {
                     }
                 };
             }
-            else {
-            }
             break;
         default:
             alert("Что-то пошло не так :j");
     }
+}
+
+function toPDF() {
+    let date = new Date();
+    let dateNow = date.getDate() +
+        "." + (date.getMonth() + 1) +
+        "." + date.getFullYear();
+
+    let doc = new jsPDF();
+
+    doc.text("DO THIS!!!!!!!!!!!!!!!!!11111", 100, 100);
+    doc.save("Report_" + dateNow + '.pdf');
 }
 
 $(document).ready(() => {
@@ -162,4 +178,8 @@ $(document).ready(() => {
 
 $(document).ready(() => {
     $("#btndeletesite").click(delsite);
+});
+
+$(document).ready(() => {
+    $("#topdf").click(toPDF);
 });
