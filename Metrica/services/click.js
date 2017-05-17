@@ -8,7 +8,9 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
         catchClicks: catchClicks,
         sumForDayClick: sumForDayClick,
         getClicksAllDate: getClicksAllDate,
-        getClicksThisDay:getClicksThisDay
+        getClicksThisDay:getClicksThisDay,
+        getClicksDonutAllDate:getClicksDonutAllDate,
+        getClicksDonutThisDate:getClicksDonutThisDate
     };
 
     function catchClicks(data) {
@@ -154,6 +156,53 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                     })
                         .then((resultCR) => {
                             resolve(resultCR);
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function getClicksDonutAllDate(data) {
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    clickRepository.findAll({
+                        where: {siteId: resultSR.id},
+                        attributes: ['element', 'count']
+                    })
+                        .then((resultCR) => {
+                            let tmp = JSON.stringify(resultCR);
+                            let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
+                            return resolve(JSON.parse(res));
+                        })
+                        .catch(() => reject(errors.notFound));
+                })
+                .catch(() => reject(errors.notFound));
+        })
+    }
+
+    function getClicksDonutThisDate(data) {
+        let dateNow = date.getDate() +
+            "." + (date.getMonth() + 1) +
+            "." + date.getFullYear();
+        return new Promise((resolve, reject) => {
+            siteRepository.findOne({
+                where: {url: data.url},
+                attributes: ['id']
+            })
+                .then((resultSR) => {
+                    clickRepository.findAll({
+                        where: {siteId: resultSR.id, date: dateNow},
+                        attributes: ['element', 'count']
+                    })
+                        .then((resultCR) => {
+                            let tmp = JSON.stringify(resultCR);
+                            let res = tmp.replace(/element/gi, 'label').replace(/count/gi, 'value');
+                            return resolve(JSON.parse(res));
                         })
                         .catch(() => reject(errors.notFound));
                 })
