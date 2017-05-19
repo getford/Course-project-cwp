@@ -358,7 +358,7 @@ function toPDF() {
 
 
             doc.addImage(dataUrl, 'PNG', 10, 10, 60, 65);
-            doc.text("DO THIS!!!!!!!!!!!!!!!!!11111", 100, 100);
+            doc.text("adwawdawdawd", 100, 100);
             doc.save("Report_" + dateNow + '.pdf');
         });
 }

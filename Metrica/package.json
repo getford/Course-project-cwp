@@ -7,18 +7,19 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "chartjs": "^0.3.24",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "jsonwebtoken": "^7.4.0",
     "mysql": "^2.13.0",
-    "sequelize": "^3.30.4",
+    "pg": "^6.2.2",
+    "pg-hstore": "^2.3.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "siege": "^0.2.0",
-    "chartjs": "^0.3.24"
+    "sequelize": "^3.30.4",
+    "siege": "^0.2.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

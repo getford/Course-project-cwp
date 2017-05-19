@@ -55,7 +55,7 @@ console.log("http://localhost:" + config.port + "\n");
 db.sequelize
     .sync()
     .then(() => {
-        app.listen(config.port, () => {
+        app.listen(process.env.PORT||config.port, () => {
             console.log("date:\t" + date.getDate() +
                 "." + (date.getMonth() + 1) +
                 "." + date.getFullYear());
