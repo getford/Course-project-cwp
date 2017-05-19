@@ -6,13 +6,13 @@ function register() {
     $.ajax({
         url: "http://" + window.location.host.toString() + "/api/auth/register",
         type: "POST",
-       // async: true,
+        // async: true,
         dataType: "json",
-       // crossDomain: true,
+        // crossDomain: true,
         data: reg,
         success: (result) => {
-            window.location.href = ".../public/html/login.html";
-            alert(JSON.stringify(result));
+            window.location.href = "/login.html";
+            alert(JSON.stringify({success: "Registration complete!"}));
         },
         error: (err) => {
             alert(JSON.stringify(err));
