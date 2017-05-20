@@ -3,12 +3,10 @@ function login() {
         "login": $("#login").val(),
         "password": $("#password").val()
     };
-    console.log(JSON.stringify(lgn));
     $.ajax({
         url: "http://" + window.location.host.toString() + "/api/auth/login",
         type: "POST",
         data: lgn,
-        //  headers: {"Authorization": localStorage.getItem('x-access-token')},
         success: (result) => {
             if (result) {
                 window.location.href = "../manage.html";
@@ -20,4 +18,6 @@ function login() {
     })
 }
 
-$("#btnlgn").click(login);
+$(document).ready(() => {
+    $("#btnlgn").click(login);
+});

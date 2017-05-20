@@ -46,5 +46,11 @@ module.exports = (authService, siteRepository, gotourlRepository, config) => {
             .catch((error) => res.json(error));
     });
 
+    router.get('/getkey', (req, res) => {
+        authService.getKey(config, req.cookies[config.cookie.auth])
+            .then((result) => res.json(result))
+            .catch((error) => res.json(error));
+    });
+
     return router;
 };

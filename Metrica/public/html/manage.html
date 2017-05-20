@@ -32,7 +32,7 @@
 
     <script type="text/javascript" src="../script/manage.js"></script>
 </head>
-<body onload="getlogin(); mySites()">
+<body onload="getlogin(); mySites(); getKey()">
 <div id="wrapper">
     <div id="content">
         <div class="c1">
@@ -75,6 +75,10 @@
                             <h4>Выберите сайт, настройте желаемые графики для отчета и нажмите кнопку</h4>
                             <input id="topdf" value="Сохранить в отчет" type="button">
                         </div>
+                        <div class="alert alert-danger">
+                            <h4>Ваш ключ:</h4>
+                            <div id="userKey"></div>
+                        </div>
                     </article>
                 </div>
                 <div id="tab-2" class="tab">
@@ -93,8 +97,8 @@
                                     <option value="donut">На круге</option>
                                     <option value="bar">Столбцы</option>
                                 </select>
-                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
-                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="allDate"> За все время</span>
                             </div>
                         </form>
                         <div id="bar-urls" style="height: 250px; width: 300px"></div>
@@ -116,8 +120,8 @@
                                     <option value="donut">На круге</option>
                                     <option value="bar">Столбцы</option>
                                 </select>
-                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
-                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="allDate"> За все время</span>
                             </div>
                         </form>
                         <div id="bar-errors" style="height: 250px; width: 300px"></div>
@@ -139,8 +143,8 @@
                                     <option value="donut">На круге</option>
                                     <option value="bar">Столбцы</option>
                                 </select>
-                                <span><input name="checkDate" type="radio" value="thisDate"> Сегодня</span>
-                                <span><input name="checkDate" type="radio" value="allDate"> За все время</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="thisDate"> Сегодня</span>
+                                <span><input style="display: none" name="checkDate" type="radio" value="allDate"> За все время</span>
                             </div>
                         </form>
                         <div id="bar-clicks" style="height: 250px; width: 300px"></div>
@@ -150,7 +154,15 @@
         </div>
     </div>
     <aside id="sidebar">
-        <strong class="logo"><a href="#">lg</a></strong>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <ul class="tabset buttons">
             <li class="active">
                 <a href="#tab-1" class="ico1"><span>Main</span><em></em></a>

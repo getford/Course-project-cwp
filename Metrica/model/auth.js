@@ -10,3 +10,6 @@ module.exports = (Sequelize, sequelize) => {
         key: Sequelize.STRING
     });
 };
+
+
+

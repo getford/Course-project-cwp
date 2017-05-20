@@ -5,7 +5,7 @@ const Promise = require("bluebird");
 const saltRounds = 10;
 
 module.exports = (userRepository, siteRepository, gotourlRepository, errors) => {
-    return {login: login, register: register, accinfo: accinfo, getLogin: getLogin};
+    return {login: login, register: register, accinfo: accinfo, getLogin: getLogin, getKey: getKey};
 
     function login(data) {
         return new Promise((resolve, reject) => {
@@ -66,8 +66,23 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
         });
     }
 
-    function resetPasscode(data) {
-
+    function getKey(config, token) {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, config.tokenKey, (err, decode) => {
+                if (err)
+                    return reject(err);
+                else {
+                    userRepository.findOne({
+                        where: {id: decode.__user_id},
+                        attributes: ['key']
+                    })
+                        .then((resultUR) => {
+                            resolve(resultUR.key);
+                        })
+                        .catch(() => reject(errors.unauthorized));
+                }
+            })
+        })
     }
 
     function accinfo(config, token) {

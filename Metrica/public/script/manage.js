@@ -16,7 +16,27 @@ function getlogin() {
         })
     }
     else {
-        window.location.href = "../login.html";
+        window.location.href = "/";
+    }
+}
+
+function getKey() {
+    let cookieBrowser = $.cookie('x-access-token');
+    if (cookieBrowser !== undefined) {
+        $.ajax({
+            url: "http://" + window.location.host.toString() + "/api/auth/getkey",
+            type: "GET",
+            headers: {"Authorization": localStorage.getItem('x-access-token')},
+            success: (result) => {
+                if (result) {
+                    $('#userKey').text(JSON.stringify(result));
+                    return result;
+                }
+            }
+        })
+    }
+    else {
+        window.location.href = "/";
     }
 }
 
@@ -26,7 +46,7 @@ function logout() {
         type: "GET",
         success: (result) => {
             $.removeCookie('x-access-token');
-            window.location.href = "../login.html";
+            window.location.href = "/";
         }
     })
 }
@@ -358,15 +378,6 @@ function graphClicks(dataUrl) {
 }
 
 function toDrive() {
-    let Dropbox = require('dropbox');
-    let dbx = new Dropbox({accessToken: 'd_8uW4mJ0pAAAAAAAAABIbxYkfaSBMzCD3SRLf1PZC6y5PYcaqzwMr2AOFEnr0QP'});
-    dbx.filesListFolder({path: ''})
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
 
     // $.ajax({
     //     url: "https://cloud-api.yandex.net/v1/disk/resources/upload?path=",
@@ -442,8 +453,6 @@ function toDrive() {
 }
 
 function toPDF() {
-    toDrive();
-
     let date = new Date();
     let dateNow = date.getDate() +
         "." + (date.getMonth() + 1) +
