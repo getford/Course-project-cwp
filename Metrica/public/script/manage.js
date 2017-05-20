@@ -1,4 +1,6 @@
 let user = "";
+let siteUrl = "";
+
 function getlogin() {
     let cookieBrowser = $.cookie('x-access-token');
     if (cookieBrowser !== undefined) {
@@ -108,13 +110,13 @@ function drawTable(data) {
 }
 
 function drawRow(rowData) {
+    siteUrl = rowData.url;
     let row = $("<tr />");
     $("#mysitetable").append(row);
     row.append($("<td id='urlClick'>" + "<span onclick=\"myGotoUrlCount('" + rowData.url + "\');" +
         "graphClicks('" + rowData.url + "\');" +
         "graphErrors('" + rowData.url + "\')\">" + rowData.url + "</span></td>"
-    ))
-    ;
+    ));
 }
 
 /* Графики */
@@ -486,6 +488,7 @@ function toPDF() {
                             doc.text("Report Metrica API", 69, 10);
                             doc.text("User: " + user, 9, 17);
                             doc.text("Data: " + dateNow, 9, 25);
+                            doc.text("Site: " + siteUrl, 70, 25);
 
                             doc.text("All data", 60, 65);
                             doc.text("This data: " + dateNow, 60, 100);
@@ -502,7 +505,7 @@ function toPDF() {
                             doc.text("Click's", 9, 205);
                             doc.addImage(imgClick, 'PNG', 9, 210, 50, 70);
 
-                            doc.save("Report_" + dateNow + '.pdf');
+                            doc.save("Report" + user + dateNow + '.pdf');
                         });
                 });
         });
