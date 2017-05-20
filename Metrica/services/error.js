@@ -31,10 +31,12 @@ module.exports = (errorRepository, siteRepository, userRepository, errors) => {
                         })
                             .then((resultSR) => {
                                 errorRepository.findOne({
-                                    where: {url: data.url, date: dateNow, number: data.number},
+                                    where: {url: data.url, number: data.number},
                                     attributes: ['url', 'number', 'count', 'date', "siteId"]
                                 })
                                     .then((resultER) => {
+                                        console.log(resultER.url + "\t" + resultER.number + "\t"
+                                            + resultER.count + "\t" + resultER.date + "\t" + resultER.siteId);
                                         if (resultER.date === dateNow &&
                                             resultER.siteId === resultSR.id &&
                                             resultER.number === data.number) {
@@ -44,41 +46,42 @@ module.exports = (errorRepository, siteRepository, userRepository, errors) => {
                                                 where: {
                                                     url: data.url,
                                                     number: data.number,
-                                                    date: dateNow
+                                                    date: dateNow,
+                                                    siteId: resultSR.id
                                                 }
                                             });
                                         }
                                         else {
                                             addError = {
-                                                "number": data.number,
-                                                "url": data.url,
-                                                "count": 1,
-                                                "date": dateNow,
-                                                "siteId": resultSR.id
+                                                number: data.number,
+                                                url: data.url,
+                                                count: 1,
+                                                date: dateNow,
+                                                siteId: resultSR.id
                                             };
 
                                             Promise.all([errorRepository.create(addError)])
                                                 .then(() => resolve({success: "ok, success"}))
-                                                .catch(() => reject({error: "site wasn't add"}));
+                                                .catch(() => reject({error: "error wasn't add"}));
                                         }
                                         resolve({success: true});
                                     })
                                     .catch(() => {
                                         addError = {
-                                            "number": data.number,
-                                            "url": data.url,
-                                            "count": 1,
-                                            "date": dateNow,
-                                            "siteId": resultSR.id
+                                            number: data.number,
+                                            url: data.url,
+                                            count: 1,
+                                            date: dateNow,
+                                            siteId: resultSR.id
                                         };
 
                                         Promise.all([errorRepository.create(addError)])
                                             .then(() => resolve({success: "ok, success"}))
-                                            .catch(() => reject({error: "site wasn't add"}));
+                                            .catch(() => reject({error: "error wasn't add"}));
                                     });
                             })
                             .catch(() => {
-                                console.error("site not found");
+                                console.error("error not found");
                                 reject(errors.notFound);
                             });
                     }

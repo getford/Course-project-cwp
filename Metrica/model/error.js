@@ -6,7 +6,7 @@ module.exports = (Sequelize, sequelize) => {
             autoIncrement: true
         },
         url: Sequelize.STRING,
-        number: Sequelize.INTEGER,
+        number: Sequelize.STRING,
         count: Sequelize.INTEGER,
         date: Sequelize.STRING
     });

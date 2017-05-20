@@ -27,7 +27,7 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                 .then((resultUR) => {
                     if (resultUR.key === data.key) {
                         siteRepository.findOne({
-                            where: {url: data.url, authId: resultUR.id},
+                            where: {url: data.url},
                             attributes: ['id', 'authId']
                         })
                             .then((resultSR) => {
