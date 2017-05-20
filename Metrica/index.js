@@ -31,6 +31,7 @@ app.use(cookieParser(config.cookie.key));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use('/api',express.static('public/swagger/dynamic-html-client/docs'));
 app.use('/api', logger);
 app.use('/api', auth);
 app.use('/api', apiController);

@@ -42,7 +42,8 @@ module.exports = (clickRepository, siteRepository, userRepository, errors) => {
                                             clickRepository.update({count: tmpCount}, {
                                                 where: {
                                                     element: data.element,
-                                                    date: dateNow
+                                                    date: dateNow,
+                                                    siteId: resultSR.id
                                                 }
                                             });
                                             tmpCount = 0;

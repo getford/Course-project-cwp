@@ -36,7 +36,8 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                                 gotourlRepository.findOne({
                                     where: {
                                         url: cutUrl,
-                                        date: dateNow
+                                        date: dateNow,
+                                        siteId: resultSR.id
                                     },
                                     attributes: ['url', 'count', 'date', 'siteId']
                                 })
@@ -46,7 +47,9 @@ module.exports = (gotourlRepository, siteRepository, userRepository, errors) => 
                                             gotourlRepository.update({count: tmpCount}, {
                                                 where: {
                                                     url: cutUrl,
-                                                    date: dateNow
+                                                    date: dateNow,
+                                                    siteId: resultSR.id
+
                                                 }
                                             });
                                             tmpCount = 0;

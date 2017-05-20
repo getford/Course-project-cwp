@@ -1,0 +1,283 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is metrica api. Try this :)",
+    "version": "v1",
+    "title": "Metrica API"
+  },
+  "host": "localhost",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "login",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Users"
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "register",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Users"
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Users"
+      }
+    },
+    "/site/addsite": {
+      "post": {
+        "tags": [
+          "Site"
+        ],
+        "operationId": "getByOwnerId",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Site"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Site"
+      }
+    },
+    "/site/delsite": {
+      "delete": {
+        "tags": [
+          "Site"
+        ],
+        "operationId": "getByOwner",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Site"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Site"
+      }
+    },
+    "/click/catchclicks": {
+      "post": {
+        "tags": [
+          "Click"
+        ],
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Click"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Click"
+      }
+    },
+    "/error/catcherrors": {
+      "post": {
+        "tags": [
+          "Error"
+        ],
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Error"
+      }
+    },
+    "/gotourl/checkurl": {
+      "post": {
+        "tags": [
+          "Gotourl"
+        ],
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Gotourl"
+              }
+            }
+          }
+        },
+        "x-swagger-router-controller": "Gotourl"
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Site": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "Click": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "element": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      }
+    },
+    "Gotourl": {
+      "type": "object",
+      "properties": {
+        "mainurl": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
