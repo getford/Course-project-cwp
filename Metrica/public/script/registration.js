@@ -6,14 +6,16 @@ function register() {
     $.ajax({
         url: "http://" + window.location.host.toString() + "/api/auth/register",
         type: "POST",
-        dataType: "json",
         data: reg,
         success: (result) => {
-            window.location.href = "/login.html";
-            alert(JSON.stringify({success: "Registration complete!"}));
+            if (result) {
+                window.location.href = "../login.html";
+                //alert(JSON.stringify({success: "Registration complete!"}));
+            }
         },
         error: (err) => {
-            alert(JSON.stringify({error: "Please, try again."}));
+           // alert(JSON.stringify({error: "Please, try again."}));
+            window.location.href = "../registration.html";
         }
     });
 }

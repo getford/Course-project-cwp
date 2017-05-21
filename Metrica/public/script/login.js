@@ -13,7 +13,8 @@ function login() {
             }
         },
         error: (err) => {
-            $("#errlogin").text(JSON.stringify(err));
+            alert(err);
+            window.location.href = "../login.html";
         }
     })
 }

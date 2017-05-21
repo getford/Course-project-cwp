@@ -61,7 +61,7 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
                         }
                     }
                 })
-                .then((data) => resolve({success: "user registered"}))
+                .then((data) => resolve(errors.forbidden))
                 .catch(() => reject(errors.internalServerError));
         });
     }
