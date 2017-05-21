@@ -1,0 +1,563 @@
+{
+	"variables": [],
+	"info": {
+		"name": "metrica",
+		"_postman_id": "f964a33e-095b-f432-b0f7-030d403c27ea",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:3000/api/auth/login",
+					"request": {
+						"url": "localhost:3000/api/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"getford\",\n  \"password\": \"1234\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/auth/register",
+					"request": {
+						"url": "localhost:3000/api/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"getford\",\n  \"password\": \"1234\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/auth/logout",
+					"request": {
+						"url": "localhost:3000/api/auth/logout",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/auth/accinfo",
+					"request": {
+						"url": "localhost:3000/api/auth/accinfo",
+						"method": "GET",
+						"header": [
+							{
+								"key": "//Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"getford\",\n  \"password\": 1234\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/auth/getlogin",
+					"request": {
+						"url": "localhost:3000/api/auth/getlogin",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/auth/getkey",
+					"request": {
+						"url": "localhost:3000/api/auth/getkey",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "click",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:3000/api/click/getclicksthisday",
+					"request": {
+						"url": "localhost:3000/api/click/getclicksthisday",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"http://metricatest:8888\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/click/getclicksalldate",
+					"request": {
+						"url": "localhost:3000/api/click/getclicksalldate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"http://metricatest:8888\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/click/getclicksdonutthisday",
+					"request": {
+						"url": "localhost:3000/api/click/getclicksdonutthisday",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/click/getclickdonutsalldate",
+					"request": {
+						"url": "localhost:3000/api/click/getclickdonutsalldate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"http://metricatest:8888\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/click/sumfordayclick",
+					"request": {
+						"url": "localhost:3000/api/click/sumfordayclick",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/click/catchclicks",
+					"request": {
+						"url": "localhost:3000/api/click/catchclicks",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"http://metricatest:8888\",\n\t\"element\": \"submit\",\n\t\"key\": \"fn9poy2aqw2ys01re6\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "error",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:3000/api/error/gethisdata",
+					"request": {
+						"url": "localhost:3000/api/error/gethisdata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/error/gealldata",
+					"request": {
+						"url": "localhost:3000/api/error/gealldata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/error/gedountthisdata",
+					"request": {
+						"url": "localhost:3000/api/error/gedountthisdata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/error/gedountalldata",
+					"request": {
+						"url": "localhost:3000/api/error/gedountalldata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/error/catcherrors",
+					"request": {
+						"url": "localhost:3000/api/error/catcherrors",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"number\": \"404\",\n\t\"url\": \"http://metricatest:8888\",\n\t\"key\": \"fn9poy2aqw2ys01re6\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gotourl",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:3000/api/gotourl/sumforday",
+					"request": {
+						"url": "http://localhost:3000/api/gotourl/sumforday",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/gotourl/infourls",
+					"request": {
+						"url": "http://localhost:3000/api/gotourl/infourls",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/gotourl/infourlsalldata",
+					"request": {
+						"url": "http://localhost:3000/api/gotourl/infourlsalldata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/gotourl/fordonutalldate",
+					"request": {
+						"url": "http://localhost:3000/api/gotourl/fordonutalldate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/gotourl/fordonutthisdata",
+					"request": {
+						"url": "http://localhost:3000/api/gotourl/fordonutthisdata",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qwe.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/gotourl/checkurl",
+					"request": {
+						"url": "localhost:3000/api/gotourl/checkurl",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"mainurl\": \"qwe.com\",\n\t\"url\": \"qwe.com/q\",\n\t\"key\":\"rnkln8m62io2oaqlcs\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "heroku",
+			"description": "",
+			"item": [
+				{
+					"name": "https://api-metrica.herokuapp.com/api/auth/register",
+					"request": {
+						"url": "https://api-metrica.herokuapp.com/api/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"getford\",\n  \"password\": 1234\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "https://api-metrica.herokuapp.com/api/auth/login",
+					"request": {
+						"url": "https://api-metrica.herokuapp.com/api/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"getford\",\n  \"password\": 1234\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "site",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:3000/api/site/addsite",
+					"request": {
+						"url": "localhost:3000/api/site/addsite",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qweeee.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/site/delsite",
+					"request": {
+						"url": "localhost:3000/api/site/delsite",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"qqweeeqe\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/api/site/mysites",
+					"request": {
+						"url": "localhost:3000/api/site/mysites",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
