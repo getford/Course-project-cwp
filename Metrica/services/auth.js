@@ -127,5 +127,4 @@ module.exports = (userRepository, siteRepository, gotourlRepository, errors) => 
             });
         });
     }
-}
-;
+};
