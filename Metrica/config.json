@@ -9,10 +9,10 @@
     "dialect": "mysql"
   },
   "db_heroku": {
-    "host": "ec2-54-235-90-107.compute-1.amazonaws.com",
-    "name": "d2h9pe6og68eme",
-    "user": "yowaxnklbueegs",
-    "password": "e1b18dab5a88e575e2e1071e608918856bc364a3895f3530bceb4b19de6856ce",
+    "host": "ec2-46-137-117-43.eu-west-1.compute.amazonaws.com",
+    "name": "dujnchn4bh2fb",
+    "user": "gqrrbpwlqgfawc",
+    "password": "ec4cd2ee1115ece973a9e1298a101053eee7e946fdddbff60210c61fc977952",
     "port": "5432",
     "dialect": "postgres"
   },
